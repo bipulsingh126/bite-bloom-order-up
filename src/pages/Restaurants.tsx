@@ -1,11 +1,10 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
-import RestaurantCard from '@/components/RestaurantCard';
 import CartDrawer from '@/components/CartDrawer';
+import InfiniteRestaurantGrid from '@/components/InfiniteRestaurantGrid';
 import { mockRestaurants } from '@/data/mockData';
-import { Search, Filter, SlidersHorizontal } from 'lucide-react';
+import { Search, SlidersHorizontal } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -20,9 +19,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const Restaurants = () => {
-  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [cuisineFilter, setCuisineFilter] = useState('');
   const [sortBy, setSortBy] = useState('rating');
@@ -43,10 +50,6 @@ const Restaurants = () => {
       if (sortBy === 'price') return a.deliveryFee - b.deliveryFee;
       return 0;
     });
-
-  const handleRestaurantClick = (id: string) => {
-    navigate(`/restaurants/${id}`);
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -141,23 +144,41 @@ const Restaurants = () => {
           </AccordionItem>
         </Accordion>
         
-        {/* Restaurant Cards */}
+        {/* Restaurant Cards with Infinite Scroll */}
         {filteredRestaurants.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredRestaurants.map(restaurant => (
-              <RestaurantCard
-                key={restaurant.id}
-                restaurant={restaurant}
-                onClick={() => handleRestaurantClick(restaurant.id)}
-              />
-            ))}
-          </div>
+          <InfiniteRestaurantGrid restaurants={filteredRestaurants} pageSize={6} />
         ) : (
           <div className="py-12 text-center">
             <p className="text-lg text-muted-foreground">No restaurants found matching your criteria.</p>
             <p className="mt-2">Try adjusting your filters or search term.</p>
           </div>
         )}
+
+        {/* Alternative Pagination (as a backup navigation option) */}
+        <div className="mt-12">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#" isActive>1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">2</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">3</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
       </div>
 
       {/* Simple Footer */}

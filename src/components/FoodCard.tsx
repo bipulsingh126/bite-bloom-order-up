@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Clock, Star, PlusCircle } from 'lucide-react';
+import { Clock, Star, PlusCircle, IndianRupee } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -14,6 +14,9 @@ interface FoodCardProps {
   className?: string;
 }
 
+// Conversion rate from USD to INR (approximately 75 rupees to 1 USD)
+const USD_TO_INR_RATE = 75;
+
 const FoodCard: React.FC<FoodCardProps> = ({ food, onClick, className }) => {
   const { addToCart } = useCart();
 
@@ -26,6 +29,9 @@ const FoodCard: React.FC<FoodCardProps> = ({ food, onClick, className }) => {
       duration: 3000,
     });
   };
+
+  // Convert price to INR
+  const priceInInr = food.price * USD_TO_INR_RATE;
 
   return (
     <Card 
@@ -70,7 +76,10 @@ const FoodCard: React.FC<FoodCardProps> = ({ food, onClick, className }) => {
         </div>
       </CardContent>
       <CardFooter className="px-4 pt-0 pb-4 flex justify-between items-center">
-        <span className="font-bold text-lg">${food.price.toFixed(2)}</span>
+        <span className="font-bold text-lg flex items-center">
+          <IndianRupee className="h-4 w-4 mr-1" />
+          {priceInInr.toFixed(2)}
+        </span>
         <Button 
           variant="outline" 
           size="sm" 

@@ -2,13 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
-import FoodCard from '@/components/FoodCard';
-import CartDrawer from '@/components/CartDrawer';
 import FoodItemDialog from '@/components/FoodItemDialog';
+import InfiniteFoodGrid from '@/components/InfiniteFoodGrid';
+import CartDrawer from '@/components/CartDrawer';
 import { Button } from '@/components/ui/button';
 import { mockRestaurants, mockFoodItems, FoodItem, Restaurant } from '@/data/mockData';
-import { Star, Clock, Navigation, Phone, DollarSign } from 'lucide-react';
+import { Star, Clock, Navigation, Phone, IndianRupee } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+// USD to INR conversion rate
+const USD_TO_INR_RATE = 75;
 
 const RestaurantDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -87,8 +90,8 @@ const RestaurantDetails = () => {
                   </div>
                   
                   <div className="flex items-center">
-                    <DollarSign className="h-5 w-5 text-muted-foreground mr-1" />
-                    <span>Delivery fee: ${restaurant.deliveryFee.toFixed(2)}</span>
+                    <IndianRupee className="h-5 w-5 text-muted-foreground mr-1" />
+                    <span>Delivery fee: ₹{(restaurant.deliveryFee * USD_TO_INR_RATE).toFixed(2)}</span>
                   </div>
                 </div>
                 
@@ -132,15 +135,11 @@ const RestaurantDetails = () => {
           </div>
           
           {filteredFoods.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredFoods.map(food => (
-                <FoodCard
-                  key={food.id}
-                  food={food}
-                  onClick={() => handleFoodClick(food)}
-                />
-              ))}
-            </div>
+            <InfiniteFoodGrid 
+              foodItems={filteredFoods} 
+              onFoodClick={handleFoodClick} 
+              pageSize={8}
+            />
           ) : (
             <div className="text-center py-12">
               <p className="text-lg text-muted-foreground">No items found in this category</p>
