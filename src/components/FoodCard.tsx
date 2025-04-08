@@ -1,10 +1,12 @@
 
 import React from 'react';
-import { Clock, Star } from 'lucide-react';
+import { Clock, Star, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { FoodItem } from '@/data/mockData';
+import { useCart } from '@/context/CartContext';
+import { toast } from '@/hooks/use-toast';
 
 interface FoodCardProps {
   food: FoodItem;
@@ -13,6 +15,18 @@ interface FoodCardProps {
 }
 
 const FoodCard: React.FC<FoodCardProps> = ({ food, onClick, className }) => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the card click
+    addToCart(food, 1);
+    toast({
+      title: "Added to cart",
+      description: `${food.name} has been added to your cart.`,
+      duration: 3000,
+    });
+  };
+
   return (
     <Card 
       className={cn(
@@ -57,8 +71,13 @@ const FoodCard: React.FC<FoodCardProps> = ({ food, onClick, className }) => {
       </CardContent>
       <CardFooter className="px-4 pt-0 pb-4 flex justify-between items-center">
         <span className="font-bold text-lg">${food.price.toFixed(2)}</span>
-        <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-          Add to Cart
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+          onClick={handleAddToCart}
+        >
+          <PlusCircle className="mr-1 h-4 w-4" /> Add to Cart
         </Button>
       </CardFooter>
     </Card>
