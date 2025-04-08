@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import FoodCard from '@/components/FoodCard';
 import { FoodItem } from '@/data/mockData';
 import { Button } from '@/components/ui/button';
@@ -20,13 +20,11 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const observerTarget = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Initialize with first page
-    loadMore(1, true);
-  }, [foodItems]);
-
-  const loadMore = (page: number, reset: boolean = false) => {
+  const loadMore = useCallback((page: number, reset: boolean = false) => {
+    if (loading || (!hasMore && !reset)) return;
+    
     setLoading(true);
     
     // Simulate API fetch delay
@@ -43,8 +41,38 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
       setHasMore(endIndex < foodItems.length);
       setLoading(false);
     }, 800);
-  };
+  }, [foodItems, loading, hasMore, pageSize]);
 
+  // Initial load
+  useEffect(() => {
+    // Initialize with first page
+    loadMore(1, true);
+  }, [foodItems, loadMore]);
+
+  // Set up intersection observer for infinite scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          loadMore(currentPage + 1);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const currentTarget = observerTarget.current;
+    if (currentTarget) {
+      observer.observe(currentTarget);
+    }
+
+    return () => {
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
+      }
+    };
+  }, [loadMore, currentPage, hasMore, loading]);
+
+  // Manual load more button handler (as backup)
   const handleLoadMore = () => {
     if (!loading && hasMore) {
       loadMore(currentPage + 1);
@@ -71,6 +99,9 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
           </div>
         </div>
       )}
+      
+      {/* Observer target for infinite scroll */}
+      <div ref={observerTarget} className="h-10 w-full" />
       
       {hasMore && !loading && (
         <div className="flex justify-center py-4">
