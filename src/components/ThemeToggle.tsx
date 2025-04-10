@@ -14,10 +14,10 @@ export const ThemeToggle = () => {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button 
-            variant="outline" 
+            variant="ghost" 
             size="icon" 
             onClick={toggleTheme}
-            className="rounded-full border border-border bg-background/50 backdrop-blur-sm"
+            className="rounded-full bg-background/50 backdrop-blur-sm hover:bg-accent transition-all"
           >
             <motion.div
               initial={{ rotate: 0 }}

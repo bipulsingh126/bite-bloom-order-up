@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/context/CartContext';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from './ThemeToggle';
 
 const Navbar: React.FC = () => {
   const { getTotalItems, setIsCartOpen } = useCart();
@@ -46,19 +47,20 @@ const Navbar: React.FC = () => {
     <nav className={cn(
       "fixed top-0 left-0 w-full z-50 transition-all duration-300",
       isScrolled 
-        ? "bg-white shadow-md py-2" 
+        ? "bg-background/95 backdrop-blur-sm shadow-md py-2" 
         : "bg-transparent py-4"
     )}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <span className="text-2xl font-bold text-bitebloom-500">
-            Bite<span className="text-secondary">Bloom</span>
+          <span className="text-2xl font-bold">
+            <span className="text-primary">Bite</span>
+            <span className="text-secondary">Bloom</span>
           </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-8">
+        <div className="hidden md:flex items-center space-x-6">
           <div className="relative">
             <form onSubmit={handleSearch} className="flex">
               <Input
@@ -74,12 +76,13 @@ const Navbar: React.FC = () => {
             </form>
           </div>
           <nav className="flex items-center space-x-6">
-            <Link to="/" className="text-foreground hover:text-primary font-medium">Home</Link>
-            <Link to="/restaurants" className="text-foreground hover:text-primary font-medium">Restaurants</Link>
-            <Link to="/about" className="text-foreground hover:text-primary font-medium">About</Link>
+            <Link to="/" className="text-foreground hover:text-primary font-medium transition-colors">Home</Link>
+            <Link to="/restaurants" className="text-foreground hover:text-primary font-medium transition-colors">Restaurants</Link>
+            <Link to="/about" className="text-foreground hover:text-primary font-medium transition-colors">About</Link>
+            <ThemeToggle />
             <Button
               variant="outline"
-              className="relative text-foreground border-primary hover:text-primary-foreground hover:bg-primary"
+              className="relative text-foreground border-primary hover:text-primary-foreground hover:bg-primary transition-colors"
               onClick={handleCartClick}
             >
               <ShoppingBag className="mr-2" size={18} />
@@ -95,10 +98,11 @@ const Navbar: React.FC = () => {
 
         {/* Mobile Navigation Toggle */}
         <div className="flex items-center md:hidden">
+          <ThemeToggle />
           <Button
             variant="outline"
             size="icon"
-            className="mr-2 relative"
+            className="mr-2 ml-2 relative"
             onClick={handleCartClick}
           >
             <ShoppingBag size={20} />
@@ -121,7 +125,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white shadow-lg">
+        <div className="md:hidden bg-background shadow-lg">
           <div className="container mx-auto px-4 py-2">
             <form onSubmit={handleSearch} className="mb-4">
               <div className="relative">

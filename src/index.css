@@ -102,6 +102,10 @@
   }
 }
 
+.theme-transition {
+  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out, border-color 0.4s ease-in-out;
+}
+
 @layer components {
   .food-card-shadow {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
@@ -115,10 +119,6 @@
   
   .gradient-mask-b-0 {
     mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-  }
-  
-  .theme-transition {
-    @apply transition-all duration-300 ease-in-out;
   }
   
   .glass-card {
@@ -139,6 +139,10 @@
   
   .dark .food-card-shadow:hover {
     box-shadow: 0 15px 30px rgba(255, 126, 29, 0.3);
+  }
+  
+  .nav-link {
+    @apply relative text-foreground hover:text-primary transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full;
   }
 }
 

@@ -12,6 +12,9 @@ const setInitialTheme = () => {
   document.documentElement.classList.add(theme);
 };
 
+// Add a class to help with transitions
+document.documentElement.classList.add('theme-transition');
+
 // Execute before any rendering happens
 setInitialTheme();
 

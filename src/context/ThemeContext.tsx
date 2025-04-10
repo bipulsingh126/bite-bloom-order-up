@@ -44,6 +44,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     
     const handleChange = (e: MediaQueryListEvent) => {
+      // Only automatically switch if the user hasn't manually set a preference
       if (!localStorage.getItem("theme")) {
         setThemeState(e.matches ? "dark" : "light");
       }
