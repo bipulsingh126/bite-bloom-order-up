@@ -16,7 +16,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Check for stored theme preference
     if (typeof window !== 'undefined') {
       const storedTheme = localStorage.getItem("theme") as Theme;
-      if (storedTheme) {
+      if (storedTheme && (storedTheme === "light" || storedTheme === "dark")) {
         return storedTheme;
       }
       
@@ -44,12 +44,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       metaThemeColor.setAttribute('content', theme === 'dark' ? '#0f1629' : '#ffffff');
     }
     
+    console.log(`Theme changed to: ${theme}`); // Debug log
+    
     // Add transition class temporarily
     root.classList.add('theme-transition');
     
     // Remove transition class after transition completes
     const transitionTimeout = setTimeout(() => {
       root.classList.remove('theme-transition');
+      // Re-add transition class after a brief pause to prevent flickering
       setTimeout(() => {
         root.classList.add('theme-transition');
       }, 100);
@@ -71,6 +74,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       }
     };
     
+    // Use the proper event listener method
     mediaQuery.addEventListener("change", handleChange);
     
     return () => {
@@ -79,7 +83,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const toggleTheme = () => {
-    setThemeState(prev => prev === "light" ? "dark" : "light");
+    setThemeState(prev => {
+      const newTheme = prev === "light" ? "dark" : "light";
+      return newTheme;
+    });
   };
   
   const setTheme = (newTheme: Theme) => {

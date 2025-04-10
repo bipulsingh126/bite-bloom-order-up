@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 export const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
-
+  
   return (
     <TooltipProvider>
       <Tooltip>
@@ -18,6 +18,7 @@ export const ThemeToggle = () => {
             size="icon" 
             onClick={toggleTheme}
             className="rounded-full bg-background/50 backdrop-blur-sm hover:bg-accent transition-all border border-border/30"
+            aria-label="Toggle theme"
           >
             <motion.div
               initial={{ rotate: 0 }}
