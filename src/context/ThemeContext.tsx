@@ -37,6 +37,27 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     
     // Store the theme preference
     localStorage.setItem("theme", theme);
+    
+    // Update theme color meta tag for mobile browsers
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', theme === 'dark' ? '#0f1629' : '#ffffff');
+    }
+    
+    // Add transition class temporarily
+    root.classList.add('theme-transition');
+    
+    // Remove transition class after transition completes
+    const transitionTimeout = setTimeout(() => {
+      root.classList.remove('theme-transition');
+      setTimeout(() => {
+        root.classList.add('theme-transition');
+      }, 100);
+    }, 500);
+    
+    return () => {
+      clearTimeout(transitionTimeout);
+    };
   }, [theme]);
 
   // Listen for system preference changes

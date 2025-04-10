@@ -16,6 +16,7 @@ const Index = () => {
       title: `${food.name} selected`,
       description: `You selected ${food.name}. Price: ₹${(food.price * 75).toFixed(2)}`,
       duration: 3000,
+      className: "frosted-glass"
     });
   };
 
@@ -24,7 +25,12 @@ const Index = () => {
       <Navbar />
       <Hero />
       <div id="featured-section" className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold mb-8 text-center">Featured Menu Items</h2>
+        <h2 className="text-3xl font-bold mb-8 text-center relative inline-block mx-auto">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+            Featured Menu Items
+          </span>
+          <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary rounded-full"></span>
+        </h2>
         <InfiniteFoodGrid 
           foodItems={mockFoodItems} 
           onFoodClick={handleFoodClick}

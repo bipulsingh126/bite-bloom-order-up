@@ -17,19 +17,31 @@ export const ThemeToggle = () => {
             variant="ghost" 
             size="icon" 
             onClick={toggleTheme}
-            className="rounded-full bg-background/50 backdrop-blur-sm hover:bg-accent transition-all"
+            className="rounded-full bg-background/50 backdrop-blur-sm hover:bg-accent transition-all border border-border/30"
           >
             <motion.div
               initial={{ rotate: 0 }}
               animate={{ rotate: theme === "light" ? 0 : 180 }}
-              transition={{ duration: 0.5, type: "spring" }}
+              transition={{ 
+                duration: 0.5, 
+                type: "spring",
+                stiffness: 100 
+              }}
               className="flex items-center justify-center"
             >
-              {theme === "light" ? (
-                <Sun className="h-[1.2rem] w-[1.2rem] text-amber-500 transition-all" />
-              ) : (
-                <Moon className="h-[1.2rem] w-[1.2rem] text-blue-400 transition-all" />
-              )}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="absolute"
+              >
+                {theme === "light" ? (
+                  <Sun className="h-[1.2rem] w-[1.2rem] text-amber-500 drop-shadow-md transition-all" />
+                ) : (
+                  <Moon className="h-[1.2rem] w-[1.2rem] text-blue-400 drop-shadow-md transition-all" />
+                )}
+              </motion.div>
             </motion.div>
             <span className="sr-only">Toggle theme</span>
           </Button>

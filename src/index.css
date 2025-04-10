@@ -6,7 +6,7 @@
 @layer base {
   :root {
     /* Bright, modern light theme */
-    --background: 210 40% 98%;
+    --background: 0 0% 100%;
     --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
@@ -35,6 +35,7 @@
     --ring: 24 100% 55%;
 
     --radius: 0.75rem;
+    --glow-color: rgba(255, 126, 29, 0.5);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5% 26%;
@@ -47,34 +48,35 @@
   }
 
   .dark {
-    /* Rich, elegant dark theme */
-    --background: 225 20% 12%;
+    /* Rich, elegant dark theme with deeper contrast */
+    --background: 224 25% 9%;
     --foreground: 210 40% 98%;
 
-    --card: 224 21% 16%;
+    --card: 224 25% 12%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 224 21% 16%;
+    --popover: 224 25% 12%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 24 90% 55%;
+    --primary: 24 95% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 12 90% 50%;
+    --secondary: 12 95% 55%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 223 20% 20%;
+    --muted: 223 25% 20%;
     --muted-foreground: 210 40% 80%;
 
-    --accent: 224 20% 25%;
+    --accent: 224 25% 25%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 224 20% 25%;
-    --input: 224 20% 25%;
-    --ring: 24 90% 55%;
+    --border: 224 25% 25%;
+    --input: 224 25% 25%;
+    --ring: 24 95% 60%;
+    --glow-color: rgba(255, 126, 29, 0.25);
     
     --sidebar-background: 240 6% 10%;
     --sidebar-foreground: 240 5% 96%;
@@ -122,7 +124,7 @@
   }
   
   .glass-card {
-    @apply bg-white/20 dark:bg-black/20 backdrop-blur-lg border border-white/10 dark:border-white/5;
+    @apply bg-white/20 dark:bg-black/20 backdrop-blur-lg border border-white/10 dark:border-white/5 shadow-lg;
   }
 
   .hero-gradient {
@@ -143,6 +145,18 @@
   
   .nav-link {
     @apply relative text-foreground hover:text-primary transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full;
+  }
+  
+  .shimmer {
+    @apply before:absolute before:inset-0 before:-translate-x-full before:animate-shimmer before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent;
+  }
+  
+  .frosted-glass {
+    @apply backdrop-blur-md bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/5;
+  }
+  
+  .glow-effect {
+    @apply hover:shadow-glow transition-shadow duration-300;
   }
 }
 
