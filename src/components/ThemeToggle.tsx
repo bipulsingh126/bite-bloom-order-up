@@ -4,6 +4,7 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { motion } from "framer-motion";
 
 export const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
@@ -13,16 +14,23 @@ export const ThemeToggle = () => {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button 
-            variant="ghost" 
+            variant="outline" 
             size="icon" 
             onClick={toggleTheme}
-            className="rounded-full"
+            className="rounded-full border border-border bg-background/50 backdrop-blur-sm"
           >
-            {theme === "light" ? (
-              <Moon className="h-5 w-5" />
-            ) : (
-              <Sun className="h-5 w-5" />
-            )}
+            <motion.div
+              initial={{ rotate: 0 }}
+              animate={{ rotate: theme === "light" ? 0 : 180 }}
+              transition={{ duration: 0.5, type: "spring" }}
+              className="flex items-center justify-center"
+            >
+              {theme === "light" ? (
+                <Sun className="h-[1.2rem] w-[1.2rem] text-amber-500 transition-all" />
+              ) : (
+                <Moon className="h-[1.2rem] w-[1.2rem] text-blue-400 transition-all" />
+              )}
+            </motion.div>
             <span className="sr-only">Toggle theme</span>
           </Button>
         </TooltipTrigger>

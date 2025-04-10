@@ -8,9 +8,11 @@ const setInitialTheme = () => {
   const theme = localStorage.getItem('theme') || 
     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   
+  document.documentElement.classList.remove('light', 'dark');
   document.documentElement.classList.add(theme);
 };
 
+// Execute before any rendering happens
 setInitialTheme();
 
 createRoot(document.getElementById("root")!).render(<App />);

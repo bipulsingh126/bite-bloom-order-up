@@ -5,14 +5,15 @@
 
 @layer base {
   :root {
-    --background: 30 33% 98%;
-    --foreground: 24 10% 10%;
+    /* Bright, modern light theme */
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 24 10% 10%;
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 24 10% 10%;
+    --popover-foreground: 222 47% 11%;
 
     --primary: 24 100% 55%;
     --primary-foreground: 0 0% 100%;
@@ -20,40 +21,41 @@
     --secondary: 12 100% 50%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 24 5% 92%;
-    --muted-foreground: 24 5% 40%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 24 100% 90%;
+    --accent: 24 100% 95%;
     --accent-foreground: 24 80% 30%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 24 5% 88%;
-    --input: 24 5% 88%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
     --ring: 24 100% 55%;
 
     --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-foreground: 240 5% 26%;
+    --sidebar-primary: 240 6% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-accent: 240 5% 96%;
+    --sidebar-accent-foreground: 240 6% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 217 91% 60%;
   }
 
   .dark {
-    --background: 24 20% 8%;
-    --foreground: 24 5% 90%;
+    /* Rich, elegant dark theme */
+    --background: 225 20% 12%;
+    --foreground: 210 40% 98%;
 
-    --card: 24 20% 12%;
-    --card-foreground: 24 5% 90%;
+    --card: 224 21% 16%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 24 20% 12%;
-    --popover-foreground: 24 5% 90%;
+    --popover: 224 21% 16%;
+    --popover-foreground: 210 40% 98%;
 
     --primary: 24 90% 55%;
     --primary-foreground: 0 0% 100%;
@@ -61,27 +63,27 @@
     --secondary: 12 90% 50%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 24 20% 20%;
-    --muted-foreground: 24 5% 65%;
+    --muted: 223 20% 20%;
+    --muted-foreground: 210 40% 80%;
 
-    --accent: 24 20% 20%;
-    --accent-foreground: 24 5% 90%;
+    --accent: 224 20% 25%;
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 24 5% 90%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 24 20% 25%;
-    --input: 24 20% 25%;
+    --border: 224 20% 25%;
+    --input: 224 20% 25%;
     --ring: 24 90% 55%;
     
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-background: 240 6% 10%;
+    --sidebar-foreground: 240 5% 96%;
+    --sidebar-primary: 224 76% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 240 4% 16%;
+    --sidebar-accent-foreground: 240 5% 96%;
+    --sidebar-border: 240 4% 16%;
+    --sidebar-ring: 217 91% 60%;
   }
 }
 
@@ -90,15 +92,19 @@
     @apply border-border;
   }
 
+  html {
+    @apply scroll-smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
   }
 }
 
 @layer components {
   .food-card-shadow {
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
   }
   
@@ -115,6 +121,18 @@
     @apply transition-all duration-300 ease-in-out;
   }
   
+  .glass-card {
+    @apply bg-white/20 dark:bg-black/20 backdrop-blur-lg border border-white/10 dark:border-white/5;
+  }
+
+  .hero-gradient {
+    background: linear-gradient(135deg, rgba(255, 126, 29, 0.1) 0%, rgba(255, 200, 100, 0.1) 100%);
+  }
+
+  .dark .hero-gradient {
+    background: linear-gradient(135deg, rgba(255, 126, 29, 0.2) 0%, rgba(150, 50, 15, 0.2) 100%);
+  }
+  
   .dark .food-card-shadow {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
   }
@@ -122,4 +140,13 @@
   .dark .food-card-shadow:hover {
     box-shadow: 0 15px 30px rgba(255, 126, 29, 0.3);
   }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
 }
