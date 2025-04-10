@@ -4,12 +4,10 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import InfiniteFoodGrid from "@/components/InfiniteFoodGrid";
 import { NavbarThemeToggle } from "@/components/NavbarThemeToggle";
-import { FoodItem } from "@/data/mockData";
+import { FoodItem, mockFoodItems } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
-  // Import mock data
-  const { mockFoodItems } = require("@/data/mockData");
   const { toast } = useToast();
   
   // Handler for food item clicks

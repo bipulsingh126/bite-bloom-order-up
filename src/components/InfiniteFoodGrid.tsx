@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import FoodCard from '@/components/FoodCard';
 import { FoodItem } from '@/data/mockData';
@@ -41,6 +40,13 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
 
   // Apply filters when foodItems or filters change
   useEffect(() => {
+    if (!foodItems || foodItems.length === 0) {
+      setFilteredItems([]);
+      setVisibleItems([]);
+      setHasMore(false);
+      return;
+    }
+    
     const filtered = foodItems.filter(item => {
       const matchesSearch = !searchTerm || 
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -69,6 +75,13 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
   const loadMore = useCallback((page: number, reset: boolean = false, items = filteredItems) => {
     if (loading || (!hasMore && !reset)) return;
     
+    if (!items || items.length === 0) {
+      setVisibleItems([]);
+      setHasMore(false);
+      setLoading(false);
+      return;
+    }
+    
     setLoading(true);
     
     // Simulate API fetch delay
@@ -89,9 +102,14 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
 
   // Initial load
   useEffect(() => {
-    // Initialize with first page
-    loadMore(1, true);
-  }, [loadMore]);
+    // Only initialize once foodItems are available
+    if (foodItems && foodItems.length > 0) {
+      // Initialize filtered items with all food items
+      const initialFiltered = [...foodItems];
+      setFilteredItems(initialFiltered);
+      loadMore(1, true, initialFiltered);
+    }
+  }, [foodItems]);
 
   // Set up intersection observer for infinite scroll
   useEffect(() => {
