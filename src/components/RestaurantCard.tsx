@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Star, Clock, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Restaurant } from '@/data/mockData';
+import { Badge } from '@/components/ui/badge';
 
 interface RestaurantCardProps {
   restaurant: Restaurant;
@@ -26,15 +27,17 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, onClick, cl
           alt={restaurant.name}
           className="w-full h-48 object-cover transition-transform duration-500 hover:scale-110"
         />
+        <div className="absolute top-2 left-2 flex flex-col gap-2">
+          {restaurant.featured && (
+            <Badge className="bg-bitebloom-500 text-white border-0">
+              Featured
+            </Badge>
+          )}
+        </div>
         {restaurant.popular && (
-          <div className="absolute top-2 right-2 bg-secondary text-white text-xs font-medium px-2 py-1 rounded-full">
+          <Badge className="absolute top-2 right-2 bg-secondary text-white border-0">
             Popular
-          </div>
-        )}
-        {restaurant.featured && (
-          <div className="absolute top-2 left-2 bg-bitebloom-500 text-white text-xs font-medium px-2 py-1 rounded-full">
-            Featured
-          </div>
+          </Badge>
         )}
       </div>
       <CardContent className="p-4">
@@ -60,7 +63,10 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, onClick, cl
         <div className="mt-3 text-xs text-muted-foreground flex justify-between">
           <span>Delivery fee: ₹{(restaurant.deliveryFee * 75).toFixed(2)}</span>
           {restaurant.distance && (
-            <span className="text-primary font-medium">{restaurant.distance.toFixed(1)} km away</span>
+            <span className="text-primary font-medium flex items-center">
+              <MapPin className="h-3 w-3 mr-1" /> 
+              {restaurant.distance.toFixed(1)} km away
+            </span>
           )}
         </div>
         <div className="mt-3 flex items-center text-xs text-muted-foreground">

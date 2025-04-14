@@ -1,10 +1,11 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import { MapPin, Navigation, ZoomIn, ZoomOut } from 'lucide-react';
+import { MapPin, Navigation, ZoomIn, ZoomOut, Locate } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { Restaurant } from '@/data/mockData';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 interface LocationMapProps {
   restaurant: Restaurant;
@@ -16,18 +17,73 @@ const LocationMap: React.FC<LocationMapProps> = ({ restaurant, className }) => {
   const { theme } = useTheme();
   const [zoom, setZoom] = useState(1);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
+  const { toast } = useToast();
   
-  useEffect(() => {
+  // Calculate distance between two points
+  const calculateDistance = (lat1: number, lng1: number, lat2: number, lng2: number): number => {
+    const R = 6371; // Radius of earth in km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lng2 - lng1) * Math.PI / 180;
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2); 
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    return R * c;
+  };
+
+  const getUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ lat: latitude, lng: longitude });
+          
+          // Calculate distance between user and restaurant
+          if (restaurant.location) {
+            const distance = calculateDistance(
+              latitude, 
+              longitude, 
+              restaurant.location.lat, 
+              restaurant.location.lng
+            );
+            
+            toast({
+              title: "Location found",
+              description: `You are approximately ${distance.toFixed(1)}km away from ${restaurant.name}`,
+            });
+          }
+          
+          renderMap();
+        },
+        (error) => {
+          toast({
+            variant: "destructive",
+            title: "Location error",
+            description: `Could not get your location: ${error.message}`,
+          });
+        }
+      );
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Geolocation not supported",
+        description: "Your browser does not support geolocation",
+      });
+    }
+  };
+  
+  const renderMap = () => {
     if (!mapRef.current || !restaurant.location) return;
-    
-    // In a real app, this would be replaced with an actual map implementation
-    const mapElement = mapRef.current;
     
     // Apply style based on theme
     const backgroundColor = theme === 'dark' ? '#202020' : '#e8e8e8';
     const textColor = theme === 'dark' ? '#ffffff' : '#000000';
-    const pinColor = theme === 'dark' ? '#8B5CF6' : '#6D28D9';
+    const pinColor = theme === 'dark' ? '#9b87f5' : '#7E69AB';
+    const userPinColor = theme === 'dark' ? '#33C3F0' : '#0EA5E9';
     const gridColor = theme === 'dark' ? '#303030' : '#d0d0d0';
+    const mapElement = mapRef.current;
     
     mapElement.style.backgroundColor = backgroundColor;
     mapElement.style.color = textColor;
@@ -45,9 +101,45 @@ const LocationMap: React.FC<LocationMapProps> = ({ restaurant, className }) => {
     const lat = restaurant.location.lat;
     const lng = restaurant.location.lng;
 
+    let userLocationHTML = '';
+    if (userLocation) {
+      // Calculate position on map for user
+      const userLeft = 50 + (userLocation.lng * 2 * zoom);
+      const userTop = 50 - (userLocation.lat * 2 * zoom);
+      
+      userLocationHTML = `
+        <div class="absolute transform -translate-x-1/2 -translate-y-1/2" 
+            style="left: ${userLeft}%; top: ${userTop}%;">
+          <div class="flex flex-col items-center">
+            <div class="text-[${userPinColor}] animate-pulse">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="1"/></svg>
+            </div>
+            <div class="absolute top-6 bg-card/80 p-1 rounded-lg shadow-lg whitespace-nowrap text-xs">
+              Your location
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Draw line between user and restaurant
+      const lineSVG = `
+        <svg class="absolute inset-0 z-0 w-full h-full">
+          <line 
+            x1="${userLeft}%" y1="${userTop}%" 
+            x2="${50 + (lng * 2 * zoom)}%" y2="${50 - (lat * 2 * zoom)}%" 
+            stroke="${theme === 'dark' ? '#6E59A5' : '#D6BCFA'}" 
+            stroke-width="2" 
+            stroke-dasharray="5,5" />
+        </svg>
+      `;
+      
+      userLocationHTML += lineSVG;
+    }
+
     mapElement.innerHTML = `
       ${gridHTML}
       <div class="flex items-center justify-center h-full relative">
+        ${userLocationHTML}
         <div class="absolute transform -translate-x-1/2 -translate-y-1/2" style="left: ${50 + (lng * 2 * zoom)}%; top: ${50 - (lat * 2 * zoom)}%;">
           <div class="flex flex-col items-center">
             <div class="text-[${pinColor}] animate-bounce">
@@ -66,8 +158,11 @@ const LocationMap: React.FC<LocationMapProps> = ({ restaurant, className }) => {
     `;
     
     setIsMapLoaded(true);
-    
-  }, [restaurant, theme, zoom]);
+  };
+
+  useEffect(() => {
+    renderMap();
+  }, [restaurant, theme, zoom, userLocation]);
 
   const handleZoomIn = () => {
     setZoom(prev => Math.min(prev + 0.5, 4));
@@ -79,9 +174,20 @@ const LocationMap: React.FC<LocationMapProps> = ({ restaurant, className }) => {
 
   return (
     <div className={cn(`border rounded-lg overflow-hidden shadow-sm transition-colors`, className)}>
-      <div className="bg-card p-3 border-b flex items-center gap-2">
-        <MapPin className="h-4 w-4 text-muted-foreground" />
-        <h3 className="text-sm font-medium">Restaurant Location</h3>
+      <div className="bg-card p-3 border-b flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <MapPin className="h-4 w-4 text-muted-foreground" />
+          <h3 className="text-sm font-medium">Restaurant Location</h3>
+        </div>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={getUserLocation}
+          className="flex items-center gap-1 h-8 px-2"
+        >
+          <Locate className="h-4 w-4" />
+          <span className="text-xs">Find me</span>
+        </Button>
       </div>
       <div className="relative">
         <div 
@@ -106,8 +212,17 @@ const LocationMap: React.FC<LocationMapProps> = ({ restaurant, className }) => {
         )}
       </div>
       <div className="p-3 flex items-center justify-between bg-card">
-        <span className="text-sm text-muted-foreground">{restaurant.address}</span>
-        <Button variant="ghost" size="sm" className="text-primary hover:bg-primary/10 px-2 py-1 h-auto flex items-center gap-1">
+        <span className="text-sm text-muted-foreground truncate">{restaurant.address}</span>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={() => {
+            // Google Maps URL for directions
+            const mapUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(restaurant.address)}`;
+            window.open(mapUrl, '_blank');
+          }}
+          className="text-primary hover:bg-primary/10 px-2 py-1 h-auto flex items-center gap-1"
+        >
           <Navigation className="h-3 w-3" />
           <span className="text-sm">Get Directions</span>
         </Button>
