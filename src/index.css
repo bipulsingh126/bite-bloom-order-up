@@ -1,11 +1,10 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* Bright, modern light theme */
+    /* Vibrant, fresh light theme */
     --background: 0 0% 100%;
     --foreground: 222 47% 11%;
 
@@ -15,27 +14,27 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    --primary: 24 100% 55%;
+    --primary: 160 84% 39%;  /* Teal instead of orange */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 12 100% 50%;
+    --secondary: 220 70% 50%; /* Blue instead of red-orange */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
 
-    --accent: 24 100% 95%;
-    --accent-foreground: 24 80% 30%;
+    --accent: 160 84% 93%;
+    --accent-foreground: 160 84% 20%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 24 100% 55%;
+    --ring: 160 84% 39%;
 
     --radius: 0.75rem;
-    --glow-color: rgba(255, 126, 29, 0.5);
+    --glow-color: rgba(38, 217, 151, 0.5);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5% 26%;
@@ -48,26 +47,26 @@
   }
 
   .dark {
-    /* Rich, elegant dark theme with deeper contrast */
-    --background: 224 25% 9%;
+    /* Contemporary dark theme with teal accents */
+    --background: 220 40% 10%;
     --foreground: 210 40% 98%;
 
-    --card: 224 25% 12%;
+    --card: 220 40% 13%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 224 25% 12%;
+    --popover: 220 40% 13%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 24 95% 60%;
+    --primary: 160 84% 39%;  /* Keep teal as primary */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 12 95% 55%;
+    --secondary: 220 70% 50%; /* Blue secondary */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 223 25% 20%;
     --muted-foreground: 210 40% 80%;
 
-    --accent: 224 25% 25%;
+    --accent: 220 40% 20%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 63% 31%;
@@ -75,8 +74,8 @@
 
     --border: 224 25% 25%;
     --input: 224 25% 25%;
-    --ring: 24 95% 60%;
-    --glow-color: rgba(255, 126, 29, 0.25);
+    --ring: 160 84% 39%;
+    --glow-color: rgba(38, 217, 151, 0.25);
     
     --sidebar-background: 240 6% 10%;
     --sidebar-foreground: 240 5% 96%;
@@ -108,6 +107,11 @@
   transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out, border-color 0.4s ease-in-out;
 }
 
+/* Add perspective view for 3D cards */
+.perspective {
+  perspective: 1000px;
+}
+
 @layer components {
   .food-card-shadow {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
@@ -115,7 +119,7 @@
   }
   
   .food-card-shadow:hover {
-    box-shadow: 0 15px 30px rgba(255, 126, 29, 0.2);
+    box-shadow: 0 15px 30px rgba(38, 217, 151, 0.2);
     transform: translateY(-5px);
   }
   
@@ -128,11 +132,11 @@
   }
 
   .hero-gradient {
-    background: linear-gradient(135deg, rgba(255, 126, 29, 0.1) 0%, rgba(255, 200, 100, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(38, 217, 151, 0.1) 0%, rgba(100, 200, 255, 0.1) 100%);
   }
 
   .dark .hero-gradient {
-    background: linear-gradient(135deg, rgba(255, 126, 29, 0.2) 0%, rgba(150, 50, 15, 0.2) 100%);
+    background: linear-gradient(135deg, rgba(38, 217, 151, 0.2) 0%, rgba(15, 50, 150, 0.2) 100%);
   }
   
   .dark .food-card-shadow {
@@ -140,7 +144,7 @@
   }
   
   .dark .food-card-shadow:hover {
-    box-shadow: 0 15px 30px rgba(255, 126, 29, 0.3);
+    box-shadow: 0 15px 30px rgba(38, 217, 151, 0.3);
   }
   
   .nav-link {

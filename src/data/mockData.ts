@@ -547,4 +547,205 @@ export const mockFoodItems: FoodItem[] = [
         name: "Add-ons",
         choices: [
           { id: "egg28", name: "Extra Egg", price: 1.99 },
-          { id: "chashu28", name: "Extra Chashu", price:
+          { id: "chashu28", name: "Extra Chashu", price: 2.99 },
+        ]
+      }
+    ]
+  },
+]
+
+export const mockRestaurants: Restaurant[] = [
+  {
+    id: "rest1",
+    name: "Burger Joint",
+    image: "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D",
+    description: "Classic American burgers and comfort food in a casual setting.",
+    rating: 4.7,
+    cuisineType: "American",
+    deliveryFee: 2.99,
+    minDeliveryTime: 20,
+    maxDeliveryTime: 35,
+    address: "123 Burger St, Foodville",
+    location: {
+      lat: 40.7128,
+      lng: -74.006
+    },
+    popular: true,
+    featured: true,
+    distance: 1.2
+  },
+  {
+    id: "rest2",
+    name: "Pizza Palace",
+    image: "https://images.unsplash.com/photo-1579751626657-72bc17010498?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D",
+    description: "Authentic Italian pizzas and pasta made with traditional recipes.",
+    rating: 4.8,
+    cuisineType: "Italian",
+    deliveryFee: 3.49,
+    minDeliveryTime: 25,
+    maxDeliveryTime: 40,
+    address: "456 Pizza Ave, Foodville",
+    location: {
+      lat: 40.7138,
+      lng: -74.016
+    },
+    popular: true,
+    featured: true,
+    distance: 1.8
+  },
+  {
+    id: "rest3",
+    name: "Asian Fusion",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D",
+    description: "Innovative dishes combining flavors from across Asia.",
+    rating: 4.5,
+    cuisineType: "Asian",
+    deliveryFee: 3.99,
+    minDeliveryTime: 30,
+    maxDeliveryTime: 45,
+    address: "789 Fusion Blvd, Foodville",
+    location: {
+      lat: 40.7148,
+      lng: -74.026
+    },
+    popular: false,
+    featured: false,
+    distance: 2.5
+  },
+  {
+    id: "rest4",
+    name: "Green Leaf Cafe",
+    image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D",
+    description: "Healthy, vegetarian-friendly options with fresh, local ingredients.",
+    rating: 4.3,
+    cuisineType: "Vegetarian",
+    deliveryFee: 2.49,
+    minDeliveryTime: 15,
+    maxDeliveryTime: 30,
+    address: "101 Green St, Foodville",
+    location: {
+      lat: 40.7158,
+      lng: -74.036
+    },
+    popular: false,
+    featured: true,
+    distance: 1.0
+  },
+  {
+    id: "rest5",
+    name: "Sweet Delights",
+    image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D",
+    description: "Dessert cafe specializing in cakes, pastries, and sweet treats.",
+    rating: 4.9,
+    cuisineType: "Dessert",
+    deliveryFee: 3.99,
+    minDeliveryTime: 20,
+    maxDeliveryTime: 35,
+    address: "222 Sweet Ave, Foodville",
+    location: {
+      lat: 40.7168,
+      lng: -74.046
+    },
+    popular: true,
+    featured: false,
+    distance: 2.2
+  },
+  {
+    id: "rest6",
+    name: "Spice Garden",
+    image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGluZGlhbiUyMHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D",
+    description: "Authentic Indian cuisine with a wide range of flavorful curries and tandoori dishes.",
+    rating: 4.8,
+    cuisineType: "Indian",
+    deliveryFee: 3.49,
+    minDeliveryTime: 30,
+    maxDeliveryTime: 45,
+    address: "333 Spice Rd, Foodville",
+    location: {
+      lat: 40.7178,
+      lng: -74.056
+    },
+    popular: true,
+    featured: true,
+    distance: 2.7
+  },
+  {
+    id: "rest7",
+    name: "Bangkok Kitchen",
+    image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8dGhhaSUyMHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D",
+    description: "Authentic Thai cuisine with bold flavors and fresh ingredients.",
+    rating: 4.6,
+    cuisineType: "Thai",
+    deliveryFee: 3.99,
+    minDeliveryTime: 25,
+    maxDeliveryTime: 40,
+    address: "444 Bangkok Ave, Foodville",
+    location: {
+      lat: 40.7188,
+      lng: -74.066
+    },
+    popular: false,
+    featured: false,
+    distance: 3.1
+  },
+  {
+    id: "rest8",
+    name: "Sushi Express",
+    image: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c3VzaGklMjByZXN0YXVyYW50fGVufDB8fDB8fHww",
+    description: "Fresh and high-quality sushi, sashimi, and Japanese specialties.",
+    rating: 4.9,
+    cuisineType: "Japanese",
+    deliveryFee: 4.99,
+    minDeliveryTime: 30,
+    maxDeliveryTime: 45,
+    address: "555 Sushi Lane, Foodville",
+    location: {
+      lat: 40.7198,
+      lng: -74.076
+    },
+    popular: true,
+    featured: true,
+    distance: 3.5
+  },
+  {
+    id: "rest9",
+    name: "Mediterranean Delight",
+    image: "https://images.unsplash.com/photo-1530990457142-bb18a441c52b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bWVkaXRlcnJhbmVhbiUyMHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D",
+    description: "Mediterranean cuisine featuring fresh hummus, falafel, and grilled specialties.",
+    rating: 4.4,
+    cuisineType: "Mediterranean",
+    deliveryFee: 3.49,
+    minDeliveryTime: 25,
+    maxDeliveryTime: 40,
+    address: "666 Olive Blvd, Foodville",
+    location: {
+      lat: 40.7208,
+      lng: -74.086
+    },
+    popular: false,
+    featured: false,
+    distance: 2.9
+  },
+  {
+    id: "rest10",
+    name: "Taco Fiesta",
+    image: "https://images.unsplash.com/photo-1653321816711-d2308f35310d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWV4aWNhbiUyMHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D",
+    description: "Vibrant Mexican restaurant serving tacos, burritos, and traditional favorites.",
+    rating: 4.7,
+    cuisineType: "Mexican",
+    deliveryFee: 2.99,
+    minDeliveryTime: 20,
+    maxDeliveryTime: 35,
+    address: "777 Fiesta St, Foodville",
+    location: {
+      lat: 40.7218,
+      lng: -74.096
+    },
+    popular: true,
+    featured: false,
+    distance: 1.8
+  }
+];
+
+// Extract unique categories from food items and add 'Popular' and 'All' options
+export const categories = ["Popular", "All", ...Array.from(new Set(mockFoodItems.map(item => item.category)))];

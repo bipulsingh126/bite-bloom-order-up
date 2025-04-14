@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
@@ -41,7 +40,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Update theme color meta tag for mobile browsers
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
-      metaThemeColor.setAttribute('content', theme === 'dark' ? '#0f1629' : '#ffffff');
+      metaThemeColor.setAttribute('content', theme === 'dark' ? '#071f2c' : '#ffffff');
     }
     
     console.log(`Theme changed to: ${theme}`); // Debug log

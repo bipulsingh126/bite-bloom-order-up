@@ -1,8 +1,7 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
-import { useCart } from '@/context/CartContext';
+import { useCart, formatInr } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -13,9 +12,22 @@ import { CreditCard, MapPin } from 'lucide-react';
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { cartItems, getTotalPrice, clearCart } = useCart();
+  const { 
+    items, 
+    getTotal, 
+    clearCart, 
+    getSubtotal, 
+    getDeliveryFee, 
+    getTaxes, 
+    getBillingBreakdown 
+  } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('credit-card');
+  
+  useEffect(() => {
+    // Debug cart contents
+    console.log("Cart items in Checkout:", items);
+  }, [items]);
   
   const handleCheckout = async () => {
     setIsProcessing(true);
@@ -48,13 +60,10 @@ const Checkout = () => {
     }
   };
   
-  // Calculate subtotal and total prices
-  const subtotal = getTotalPrice();
-  const deliveryFee = 3.99;
-  const tax = subtotal * 0.08; // 8% tax rate
-  const total = subtotal + deliveryFee + tax;
+  // Get all price components from the cart context
+  const { subtotal, deliveryFee, taxes, promoDiscount, total } = getBillingBreakdown();
   
-  if (cartItems.length === 0) {
+  if (items.length === 0) {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
@@ -161,15 +170,15 @@ const Checkout = () => {
                 <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
                 
                 <div className="space-y-4 mb-4">
-                  {cartItems.map((item) => (
-                    <div key={item.item.id} className="flex justify-between items-center">
+                  {items.map((item) => (
+                    <div key={item.id} className="flex justify-between items-center">
                       <div className="flex items-center">
                         <span className="bg-muted w-6 h-6 flex items-center justify-center rounded-full mr-2">
                           {item.quantity}
                         </span>
-                        <span className="font-medium">{item.item.name}</span>
+                        <span className="font-medium">{item.name}</span>
                       </div>
-                      <span>${(item.item.price * item.quantity).toFixed(2)}</span>
+                      <span>{formatInr(item.price * item.quantity)}</span>
                     </div>
                   ))}
                 </div>
@@ -179,23 +188,29 @@ const Checkout = () => {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>{formatInr(subtotal)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Delivery Fee</span>
-                    <span>${deliveryFee.toFixed(2)}</span>
+                    <span>{formatInr(deliveryFee)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Tax (8%)</span>
-                    <span>${tax.toFixed(2)}</span>
+                    <span className="text-muted-foreground">Tax (5%)</span>
+                    <span>{formatInr(taxes)}</span>
                   </div>
+                  {promoDiscount > 0 && (
+                    <div className="flex justify-between text-green-500">
+                      <span>Discount</span>
+                      <span>-{formatInr(promoDiscount)}</span>
+                    </div>
+                  )}
                 </div>
                 
                 <Separator className="my-4" />
                 
                 <div className="flex justify-between font-semibold text-lg mb-6">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>{formatInr(total)}</span>
                 </div>
                 
                 <Button 

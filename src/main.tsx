@@ -1,4 +1,3 @@
-
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
@@ -20,15 +19,13 @@ const setInitialTheme = () => {
   // Add initial theme color meta tag for mobile browsers
   const metaThemeColor = document.querySelector('meta[name="theme-color"]');
   if (metaThemeColor) {
-    metaThemeColor.setAttribute('content', validTheme === 'dark' ? '#0f1629' : '#ffffff');
+    metaThemeColor.setAttribute('content', validTheme === 'dark' ? '#071f2c' : '#ffffff');
   } else {
     const meta = document.createElement('meta');
     meta.name = 'theme-color';
-    meta.content = validTheme === 'dark' ? '#0f1629' : '#ffffff';
+    meta.content = validTheme === 'dark' ? '#071f2c' : '#ffffff';
     document.head.appendChild(meta);
   }
-  
-  console.log(`Initial theme set to: ${validTheme}`); // Debug log
 };
 
 // Temporarily disable transitions during initial load
@@ -38,7 +35,10 @@ document.documentElement.classList.add('theme-transition');
 setInitialTheme();
 
 // Create root element
-createRoot(document.getElementById("root")!).render(<App />);
+const rootElement = document.getElementById("root");
+if (rootElement) {
+  createRoot(rootElement).render(<App />);
+}
 
 // Re-enable transitions after initial load
 window.addEventListener('load', () => {

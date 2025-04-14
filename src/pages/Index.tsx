@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
@@ -9,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import FoodItemDialog from "@/components/FoodItemDialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import CategorySection from "@/components/CategorySection";
 
 const Index = () => {
   const { toast } = useToast();
@@ -33,12 +33,16 @@ const Index = () => {
     <div className="min-h-screen transition-colors">
       <Navbar />
       <Hero />
+      
+      {/* Category Section */}
+      <CategorySection />
+      
       <div id="featured-section" className="container mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold mb-8 text-center relative inline-block mx-auto">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-blue-500">
             Featured Menu Items
           </span>
-          <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary rounded-full"></span>
+          <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-teal-500 to-blue-500 rounded-full"></span>
         </h2>
         
         <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="mb-8">

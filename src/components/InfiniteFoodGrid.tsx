@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import FoodCard from '@/components/FoodCard';
 import { FoodItem } from '@/data/mockData';
-import { Button } from '@/components/ui/button';
+import { Button as ShadcnButton } from '@/components/ui/button';
 import { Loader, Grid, List, SlidersHorizontal } from 'lucide-react';
 import { 
   DropdownMenu,
@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { cn } from '@/lib/utils';
+import { Button, Pagination } from '@nextui-org/react';
 
 interface InfiniteFoodGridProps {
   foodItems: FoodItem[];
@@ -86,7 +87,7 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
     
     // Simulate API fetch delay
     setTimeout(() => {
-      const startIndex = reset ? 0 : (page - 1) * pageSize;
+      const startIndex = (page - 1) * pageSize;
       const endIndex = page * pageSize;
       const newItems = items.slice(startIndex, endIndex);
       
@@ -97,7 +98,7 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
       setCurrentPage(page);
       setHasMore(endIndex < items.length);
       setLoading(false);
-    }, 800);
+    }, 500); // Reduced delay for better UX
   }, [filteredItems, loading, hasMore, pageSize]);
 
   // Initial load
@@ -141,6 +142,24 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
     }
   };
 
+  // Navigate to previous page
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      const newPage = currentPage - 1;
+      setCurrentPage(newPage);
+      loadMore(newPage, true);
+    }
+  };
+
+  // Navigate to next page
+  const handleNextPage = () => {
+    if (hasMore) {
+      const newPage = currentPage + 1;
+      setCurrentPage(newPage);
+      loadMore(newPage, true);
+    }
+  };
+
   // Clear all filters
   const clearFilters = () => {
     setSearchTerm('');
@@ -161,6 +180,20 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
     });
   };
 
+  // Handle pagination change
+  const handlePageChange = (page: number) => {
+    if (page !== currentPage) {
+      setCurrentPage(page);
+      loadMore(page, true);
+      
+      // Scroll to top of the grid when page changes
+      window.scrollTo({
+        top: document.getElementById('food-grid-container')?.offsetTop || 0,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <div className="space-y-8">
       {/* Filters and controls */}
@@ -173,23 +206,23 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
             className="pl-4 pr-10"
           />
           {searchTerm && (
-            <Button
+            <ShadcnButton
               variant="ghost"
               size="icon"
               className="absolute right-0 top-0 h-full"
               onClick={() => setSearchTerm('')}
             >
               ✕
-            </Button>
+            </ShadcnButton>
           )}
         </div>
         
         <div className="flex gap-2 ml-auto">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon" className="h-10 w-10">
+              <ShadcnButton variant="outline" size="icon" className="h-10 w-10">
                 <SlidersHorizontal className="h-4 w-4" />
-              </Button>
+              </ShadcnButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>Price Range</DropdownMenuLabel>
@@ -213,17 +246,17 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
                 Under ₹2250
               </DropdownMenuCheckboxItem>
               <DropdownMenuSeparator />
-              <Button 
+              <ShadcnButton 
                 variant="ghost" 
                 className="w-full justify-start"
                 onClick={clearFilters}
               >
                 Clear Filters
-              </Button>
+              </ShadcnButton>
             </DropdownMenuContent>
           </DropdownMenu>
           
-          <Button 
+          <ShadcnButton 
             variant="outline" 
             size="icon"
             className="h-10 w-10"
@@ -234,7 +267,7 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
             ) : (
               <Grid className="h-4 w-4" />
             )}
-          </Button>
+          </ShadcnButton>
         </div>
       </div>
       
@@ -244,39 +277,39 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
           {searchTerm && (
             <Badge variant="secondary" className="flex items-center gap-1">
               Search: {searchTerm}
-              <Button 
+              <ShadcnButton 
                 variant="ghost" 
                 size="icon" 
                 className="h-4 w-4 ml-1" 
                 onClick={() => setSearchTerm('')}
               >
                 ✕
-              </Button>
+              </ShadcnButton>
             </Badge>
           )}
           
           {priceFilter !== null && (
             <Badge variant="secondary" className="flex items-center gap-1">
               Price: Under ₹{priceFilter * 75}
-              <Button 
+              <ShadcnButton 
                 variant="ghost" 
                 size="icon" 
                 className="h-4 w-4 ml-1" 
                 onClick={() => setPriceFilter(null)}
               >
                 ✕
-              </Button>
+              </ShadcnButton>
             </Badge>
           )}
           
-          <Button 
+          <ShadcnButton 
             variant="ghost" 
             size="sm" 
             className="text-xs" 
             onClick={clearFilters}
           >
             Clear All
-          </Button>
+          </ShadcnButton>
         </div>
       )}
 
@@ -286,11 +319,14 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
       </div>
 
       {/* Food items grid/list view */}
-      <div className={cn(
-        viewMode === 'grid' 
-          ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" 
-          : "flex flex-col gap-4"
-      )}>
+      <div 
+        id="food-grid-container"
+        className={cn(
+          viewMode === 'grid' 
+            ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" 
+            : "flex flex-col gap-4"
+        )}
+      >
         {visibleItems.length > 0 ? (
           visibleItems.map(food => (
             <FoodCard
@@ -303,7 +339,7 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
         ) : !loading ? (
           <div className="col-span-full py-12 text-center">
             <p className="text-lg text-muted-foreground">No items found</p>
-            <Button variant="link" onClick={clearFilters}>Clear filters</Button>
+            <ShadcnButton variant="link" onClick={clearFilters}>Clear filters</ShadcnButton>
           </div>
         ) : null}
       </div>
@@ -324,19 +360,74 @@ const InfiniteFoodGrid: React.FC<InfiniteFoodGridProps> = ({
       {/* Load more button (displayed when there are more items to load) */}
       {hasMore && !loading && visibleItems.length > 0 && (
         <div className="flex justify-center py-4">
-          <Button 
+          <ShadcnButton 
             onClick={handleLoadMore} 
             variant="outline" 
             className="min-w-[200px] group transition-all hover:bg-primary hover:text-primary-foreground"
           >
             <span className="mr-2 group-hover:translate-y-[-1px] transition-transform">Load More</span>
             <span className="group-hover:translate-y-[1px] transition-transform">↓</span>
+          </ShadcnButton>
+        </div>
+      )}
+      
+      {/* NextUI Pagination */}
+      {visibleItems.length > 0 && filteredItems.length > pageSize && (
+        <div className="flex flex-col items-center justify-center mt-8 mb-6 gap-2">
+          <Pagination
+            total={Math.ceil(filteredItems.length / pageSize)}
+            initialPage={1}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+            radius="full"
+            variant="bordered"
+            showControls
+            classNames={{
+              item: "bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700",
+              cursor: "bg-gradient-to-r from-teal-500 to-blue-500 text-white shadow-md font-bold",
+            }}
+            size="lg"
+          />
+          <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+            Showing {(currentPage - 1) * pageSize + 1} - {Math.min(currentPage * pageSize, filteredItems.length)} of {filteredItems.length} items
+          </div>
+        </div>
+      )}
+      
+      {/* Simple pagination for mobile */}
+      {visibleItems.length > 0 && filteredItems.length > pageSize && (
+        <div className="md:hidden flex items-center justify-between mt-6 px-2">
+          <Button
+            onPress={handlePrevPage}
+            isDisabled={currentPage <= 1 || loading}
+            variant="flat"
+            color="primary"
+            size="sm"
+            startContent={<span>←</span>}
+          >
+            Prev
+          </Button>
+          
+          <span className="text-sm">
+            {currentPage} / {Math.ceil(filteredItems.length / pageSize)}
+          </span>
+          
+          <Button
+            onPress={handleNextPage}
+            isDisabled={!hasMore || loading}
+            variant="flat"
+            color="primary"
+            size="sm"
+            endContent={<span>→</span>}
+          >
+            Next
           </Button>
         </div>
       )}
       
       {/* End of list indicator */}
-      {!hasMore && visibleItems.length > 0 && (
+      {!hasMore && visibleItems.length > 0 && currentPage === Math.ceil(filteredItems.length / pageSize) && (
         <div className="text-center text-muted-foreground py-4">
           <div className="mb-2">✨</div>
           You've reached the end of the list

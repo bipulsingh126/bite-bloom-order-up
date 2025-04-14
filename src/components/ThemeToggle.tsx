@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
@@ -38,9 +37,9 @@ export const ThemeToggle = () => {
                 className="absolute"
               >
                 {theme === "light" ? (
-                  <Sun className="h-[1.2rem] w-[1.2rem] text-amber-500 drop-shadow-md transition-all" />
+                  <Sun className="h-[1.2rem] w-[1.2rem] text-teal-500 drop-shadow-md transition-all" />
                 ) : (
-                  <Moon className="h-[1.2rem] w-[1.2rem] text-blue-400 drop-shadow-md transition-all" />
+                  <Moon className="h-[1.2rem] w-[1.2rem] text-blue-500 drop-shadow-md transition-all" />
                 )}
               </motion.div>
             </motion.div>

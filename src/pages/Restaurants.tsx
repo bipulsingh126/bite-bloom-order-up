@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import CartDrawer from '@/components/CartDrawer';
@@ -6,7 +5,7 @@ import { mockRestaurants } from '@/data/mockData';
 import SearchBar from '@/components/restaurants/SearchBar';
 import FilterBar from '@/components/restaurants/FilterBar';
 import MobileFilters from '@/components/restaurants/MobileFilters';
-import LocationBanner from '@/components/restaurants/LocationBanner';
+import ImprovedLocationBanner from '@/components/restaurants/ImprovedLocationBanner';
 import RestaurantListSection from '@/components/restaurants/RestaurantListSection';
 
 const Restaurants = () => {
@@ -42,8 +41,11 @@ const Restaurants = () => {
       <Navbar />
       
       <div className="container mx-auto px-4 pt-24 pb-12">
-        <h1 className="text-3xl font-bold mb-2">Restaurants</h1>
-        <p className="text-muted-foreground mb-6">Discover the best restaurants in your area</p>
+        <h1 className="text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-blue-500">Restaurants</h1>
+        <p className="text-gray-600 dark:text-gray-300 mb-6">Discover the best food from top restaurants in your area</p>
+        
+        {/* Location Banner */}
+        <ImprovedLocationBanner />
         
         {/* Search and Filter Bar */}
         <div className="flex flex-col md:flex-row gap-4 mb-8">
@@ -62,9 +64,6 @@ const Restaurants = () => {
         
         {/* Mobile Filters */}
         <MobileFilters />
-        
-        {/* Location Banner */}
-        <LocationBanner />
         
         {/* Restaurant Cards with Infinite Scroll */}
         <RestaurantListSection filteredRestaurants={filteredRestaurants} />

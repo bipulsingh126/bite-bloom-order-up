@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Dialog, 
@@ -12,10 +11,11 @@ import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Clock, Minus, Plus, Star } from 'lucide-react';
+import { Clock, Minus, Plus, ShoppingCart, Star } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { FoodItem } from '@/data/mockData';
-import { useCart } from '@/context/CartContext';
+import { useCart, formatInr } from '@/context/CartContext';
+import { useToast } from '@/hooks/use-toast';
 
 interface FoodItemDialogProps {
   food: FoodItem | null;
@@ -23,12 +23,18 @@ interface FoodItemDialogProps {
   onClose: () => void;
 }
 
+// Convert USD to INR (approximate conversion rate)
+const usdToInr = (price: number): number => {
+  return price * 75; // 1 USD ≈ 75 INR
+};
+
 const FoodItemDialog: React.FC<FoodItemDialogProps> = ({ food, isOpen, onClose }) => {
   const [quantity, setQuantity] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState<{[key: string]: {id: string, name: string, price: number}[]}>(
     {}
   );
   const { addToCart } = useCart();
+  const { toast } = useToast();
 
   if (!food) return null;
 
@@ -75,7 +81,8 @@ const FoodItemDialog: React.FC<FoodItemDialogProps> = ({ food, isOpen, onClose }
       });
     });
     
-    return ((food.price + optionsPrice) * quantity).toFixed(2);
+    // Convert to INR before display
+    return usdToInr((food.price + optionsPrice) * quantity);
   };
 
   const isOptionSelected = (categoryName: string, optionId: string) => {
@@ -84,6 +91,15 @@ const FoodItemDialog: React.FC<FoodItemDialogProps> = ({ food, isOpen, onClose }
 
   const handleAddToCart = () => {
     addToCart(food, quantity, selectedOptions);
+    
+    // Display toast notification
+    toast({
+      title: "Added to cart!",
+      description: `${quantity} x ${food.name} added to your cart`,
+      variant: "success",
+    });
+    
+    // Reset state
     setQuantity(1);
     setSelectedOptions({});
     onClose();
@@ -103,6 +119,9 @@ const FoodItemDialog: React.FC<FoodItemDialogProps> = ({ food, isOpen, onClose }
               Popular
             </div>
           )}
+          <div className="absolute bottom-4 left-4 bg-white dark:bg-gray-800 text-primary font-semibold px-3 py-1 rounded-full shadow-md">
+            {formatInr(usdToInr(food.price))}
+          </div>
         </div>
 
         <DialogHeader>
@@ -156,7 +175,7 @@ const FoodItemDialog: React.FC<FoodItemDialogProps> = ({ food, isOpen, onClose }
                           </Label>
                         </div>
                         {choice.price > 0 && (
-                          <span className="text-sm">+${choice.price.toFixed(2)}</span>
+                          <span className="text-sm">+{formatInr(usdToInr(choice.price))}</span>
                         )}
                       </div>
                     ))}
@@ -183,7 +202,7 @@ const FoodItemDialog: React.FC<FoodItemDialogProps> = ({ food, isOpen, onClose }
                           </Label>
                         </div>
                         {choice.price > 0 && (
-                          <span className="text-sm">+${choice.price.toFixed(2)}</span>
+                          <span className="text-sm">+{formatInr(usdToInr(choice.price))}</span>
                         )}
                       </div>
                     ))}
@@ -203,6 +222,7 @@ const FoodItemDialog: React.FC<FoodItemDialogProps> = ({ food, isOpen, onClose }
               size="icon" 
               className="h-8 w-8"
               onClick={() => handleQuantityChange(-1)}
+              disabled={quantity <= 1}
             >
               <Minus size={16} />
             </Button>
@@ -218,9 +238,34 @@ const FoodItemDialog: React.FC<FoodItemDialogProps> = ({ food, isOpen, onClose }
           </div>
         </div>
 
+        <div className="mt-4">
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-500">Base price:</span>
+            <span>{formatInr(usdToInr(food.price))}</span>
+          </div>
+          
+          {Object.entries(selectedOptions).map(([category, options]) => (
+            options.map(option => (
+              <div key={option.id} className="flex justify-between text-sm">
+                <span className="text-gray-500">{option.name}:</span>
+                <span>+{formatInr(usdToInr(option.price))}</span>
+              </div>
+            ))
+          ))}
+          
+          <div className="flex justify-between font-semibold mt-2">
+            <span>Total ({quantity} item{quantity > 1 ? 's' : ''}):</span>
+            <span className="text-primary">{formatInr(calculateTotalPrice())}</span>
+          </div>
+        </div>
+
         <DialogFooter className="mt-6">
-          <Button onClick={handleAddToCart} className="w-full bg-primary hover:bg-primary/90">
-            Add to Cart - ${calculateTotalPrice()}
+          <Button 
+            onClick={handleAddToCart} 
+            className="w-full bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-white"
+          >
+            <ShoppingCart className="h-4 w-4 mr-2" />
+            Add to Cart - {formatInr(calculateTotalPrice())}
           </Button>
         </DialogFooter>
       </DialogContent>

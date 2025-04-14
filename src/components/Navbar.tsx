@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, ShoppingBag, Search } from 'lucide-react';
@@ -9,10 +8,15 @@ import { cn } from '@/lib/utils';
 import { ThemeToggle } from './ThemeToggle';
 
 const Navbar: React.FC = () => {
-  const { getTotalItems, setIsCartOpen } = useCart();
+  const { items, setIsCartOpen } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Calculate total items count
+  const getTotalItemsCount = () => {
+    return items.reduce((total, item) => total + item.quantity, 0);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,9 +91,9 @@ const Navbar: React.FC = () => {
             >
               <ShoppingBag className="mr-2" size={18} />
               <span>Cart</span>
-              {getTotalItems() > 0 && (
+              {getTotalItemsCount() > 0 && (
                 <span className="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {getTotalItems()}
+                  {getTotalItemsCount()}
                 </span>
               )}
             </Button>
@@ -106,9 +110,9 @@ const Navbar: React.FC = () => {
             onClick={handleCartClick}
           >
             <ShoppingBag size={20} />
-            {getTotalItems() > 0 && (
+            {getTotalItemsCount() > 0 && (
               <span className="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                {getTotalItems()}
+                {getTotalItemsCount()}
               </span>
             )}
           </Button>
