@@ -29,12 +29,13 @@ export interface Restaurant {
   minDeliveryTime: number;
   maxDeliveryTime: number;
   address: string;
-  location?: {
+  location: {
     lat: number;
     lng: number;
   };
   popular?: boolean;
   featured?: boolean;
+  distance?: number; // distance from user in km
 }
 
 export const mockFoodItems: FoodItem[] = [
@@ -145,6 +146,156 @@ export const mockFoodItems: FoodItem[] = [
     restaurantId: "rest4",
     rating: 4.2,
     prepTime: "5-10 min"
+  },
+  // Adding 10 new food items below
+  {
+    id: "food7",
+    name: "Butter Chicken",
+    description: "Tender chicken cooked in a rich and creamy tomato-based butter sauce with Indian spices.",
+    price: 15.99,
+    image: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YnV0dGVyJTIwY2hpY2tlbnxlbnwwfHwwfHx8MA%3D%3D",
+    category: "Indian",
+    restaurantId: "rest6",
+    popular: true,
+    rating: 4.8,
+    prepTime: "25-35 min"
+  },
+  {
+    id: "food8",
+    name: "Beef Pad Thai",
+    description: "Stir-fried rice noodles with beef, eggs, bean sprouts, peanuts, and tamarind sauce.",
+    price: 14.49,
+    image: "https://images.unsplash.com/photo-1559314809-0d155014e29e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGFkJTIwdGhhaXxlbnwwfHwwfHx8MA%3D%3D",
+    category: "Thai",
+    restaurantId: "rest7",
+    rating: 4.6,
+    prepTime: "15-25 min"
+  },
+  {
+    id: "food9",
+    name: "Vegetable Biryani",
+    description: "Fragrant basmati rice cooked with mixed vegetables, herbs, and aromatic spices.",
+    price: 12.99,
+    image: "https://images.unsplash.com/photo-1599043513900-ed6fe01d3833?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YmlyeWFuaXxlbnwwfHwwfHx8MA%3D%3D",
+    category: "Indian",
+    restaurantId: "rest6",
+    rating: 4.5,
+    prepTime: "30-40 min",
+    customizable: true,
+    options: [
+      {
+        name: "Spice Level",
+        choices: [
+          { id: "spice1", name: "Mild", price: 0 },
+          { id: "spice2", name: "Medium", price: 0 },
+          { id: "spice3", name: "Spicy", price: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "food10",
+    name: "Fresh Sushi Platter",
+    description: "Assortment of fresh nigiri and maki rolls with wasabi, ginger, and soy sauce.",
+    price: 24.99,
+    image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c3VzaGl8ZW58MHx8MHx8fDA%3D",
+    category: "Japanese",
+    restaurantId: "rest8",
+    popular: true,
+    rating: 4.9,
+    prepTime: "20-30 min",
+    customizable: true,
+    options: [
+      {
+        name: "Size",
+        choices: [
+          { id: "sushi1", name: "Small (12 pieces)", price: 0 },
+          { id: "sushi2", name: "Medium (18 pieces)", price: 10 },
+          { id: "sushi3", name: "Large (24 pieces)", price: 18 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "food11",
+    name: "Falafel Plate",
+    description: "Crispy falafel balls served with hummus, tahini, pita bread, and fresh Mediterranean salad.",
+    price: 11.99,
+    image: "https://images.unsplash.com/photo-1593001872095-7d5b3868dd28?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZmFsYWZlbHxlbnwwfHwwfHx8MA%3D%3D",
+    category: "Mediterranean",
+    restaurantId: "rest9",
+    rating: 4.4,
+    prepTime: "15-20 min"
+  },
+  {
+    id: "food12",
+    name: "Beef Tacos",
+    description: "Three soft corn tortillas filled with seasoned beef, onions, cilantro, and fresh lime.",
+    price: 10.49,
+    image: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGFjb3N8ZW58MHx8MHx8fDA%3D",
+    category: "Mexican",
+    restaurantId: "rest10",
+    popular: true,
+    rating: 4.7,
+    prepTime: "10-20 min",
+    customizable: true,
+    options: [
+      {
+        name: "Extras",
+        choices: [
+          { id: "mextra1", name: "Guacamole", price: 1.99 },
+          { id: "mextra2", name: "Sour Cream", price: 0.99 },
+          { id: "mextra3", name: "Extra Salsa", price: 0.79 }
+        ],
+        multiple: true
+      }
+    ]
+  },
+  {
+    id: "food13",
+    name: "Tiramisu",
+    description: "Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream.",
+    price: 8.99,
+    image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dGlyYW1pc3V8ZW58MHx8MHx8fDA%3D",
+    category: "Dessert",
+    restaurantId: "rest2",
+    rating: 4.8,
+    prepTime: "5-10 min"
+  },
+  {
+    id: "food14",
+    name: "Chicken Shawarma Wrap",
+    description: "Marinated chicken wrapped in warm pita with garlic sauce, pickles, and fries.",
+    price: 9.99,
+    image: "https://images.unsplash.com/photo-1632240207109-4ba60c5c70cc?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c2hhd2FybWF8ZW58MHx8MHx8fDA%3D",
+    category: "Mediterranean",
+    restaurantId: "rest9",
+    popular: true,
+    rating: 4.6,
+    prepTime: "15-25 min"
+  },
+  {
+    id: "food15",
+    name: "Vegetable Stir Fry",
+    description: "Fresh seasonal vegetables stir-fried in a savory sauce, served with steamed rice.",
+    price: 11.49,
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8dmVnZXRhYmxlJTIwc3RpciUyMGZyeXxlbnwwfHwwfHx8MA%3D%3D",
+    category: "Vegetarian",
+    restaurantId: "rest4",
+    rating: 4.3,
+    prepTime: "15-20 min"
+  },
+  {
+    id: "food16",
+    name: "Breakfast Platter",
+    description: "Complete breakfast with eggs, bacon, pancakes, hash browns, and toast.",
+    price: 13.99,
+    image: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YnJlYWtmYXN0JTIwcGxhdHRlcnxlbnwwfHwwfHx8MA%3D%3D",
+    category: "Breakfast",
+    restaurantId: "rest1",
+    popular: true,
+    rating: 4.7,
+    prepTime: "15-25 min"
   }
 ];
 
@@ -165,7 +316,8 @@ export const mockRestaurants: Restaurant[] = [
       lng: -122.4194
     },
     popular: true,
-    featured: true
+    featured: true,
+    distance: 2.3
   },
   {
     id: "rest2",
@@ -183,7 +335,8 @@ export const mockRestaurants: Restaurant[] = [
       lng: -122.4167
     },
     popular: true,
-    featured: true
+    featured: true,
+    distance: 1.8
   },
   {
     id: "rest3",
@@ -199,7 +352,8 @@ export const mockRestaurants: Restaurant[] = [
     location: {
       lat: 37.7900,
       lng: -122.4000
-    }
+    },
+    distance: 3.2
   },
   {
     id: "rest4",
@@ -216,7 +370,8 @@ export const mockRestaurants: Restaurant[] = [
       lat: 37.7700,
       lng: -122.4100
     },
-    featured: true
+    featured: true,
+    distance: 1.5
   },
   {
     id: "rest5",
@@ -233,7 +388,97 @@ export const mockRestaurants: Restaurant[] = [
       lat: 37.7820,
       lng: -122.4250
     },
-    popular: true
+    popular: true,
+    distance: 2.7
+  },
+  // Adding 5 new restaurants to match our new food items
+  {
+    id: "rest6",
+    name: "Spice Route",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5kaWFuJTIwcmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D",
+    description: "Authentic Indian cuisine with traditional spices and flavors",
+    rating: 4.6,
+    cuisineType: "Indian",
+    deliveryFee: 3.49,
+    minDeliveryTime: 30,
+    maxDeliveryTime: 45,
+    address: "42 Spice Lane, Foodville",
+    location: {
+      lat: 37.7650,
+      lng: -122.4320
+    },
+    popular: true,
+    distance: 3.8
+  },
+  {
+    id: "rest7",
+    name: "Thai Garden",
+    image: "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dGhhaSUyMHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D",
+    description: "Fresh Thai dishes with authentic flavors from Southeast Asia",
+    rating: 4.5,
+    cuisineType: "Thai",
+    deliveryFee: 2.99,
+    minDeliveryTime: 25,
+    maxDeliveryTime: 40,
+    address: "567 Basil Street, Foodville",
+    location: {
+      lat: 37.7550,
+      lng: -122.4270
+    },
+    distance: 4.1
+  },
+  {
+    id: "rest8",
+    name: "Sushi Kingdom",
+    image: "https://images.unsplash.com/photo-1617196701537-7329482cc9fe?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c3VzaGklMjByZXN0YXVyYW50fGVufDB8fDB8fHww",
+    description: "Premium sushi and Japanese cuisine prepared by skilled chefs",
+    rating: 4.8,
+    cuisineType: "Japanese",
+    deliveryFee: 4.99,
+    minDeliveryTime: 30,
+    maxDeliveryTime: 50,
+    address: "888 Ocean Drive, Foodville",
+    location: {
+      lat: 37.7780,
+      lng: -122.3950
+    },
+    featured: true,
+    distance: 5.2
+  },
+  {
+    id: "rest9",
+    name: "Mediterranean Delights",
+    image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bWVkaXRlcnJhbmVhbiUyMHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D",
+    description: "Fresh Mediterranean dishes with a focus on healthy ingredients",
+    rating: 4.4,
+    cuisineType: "Mediterranean",
+    deliveryFee: 2.79,
+    minDeliveryTime: 20,
+    maxDeliveryTime: 35,
+    address: "345 Olive Way, Foodville",
+    location: {
+      lat: 37.7600,
+      lng: -122.4050
+    },
+    distance: 3.0
+  },
+  {
+    id: "rest10",
+    name: "Taco Fiesta",
+    image: "https://images.unsplash.com/photo-1653313193408-8454ac168fde?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWV4aWNhbiUyMHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D",
+    description: "Authentic Mexican street food and specialties",
+    rating: 4.7,
+    cuisineType: "Mexican",
+    deliveryFee: 2.49,
+    minDeliveryTime: 15,
+    maxDeliveryTime: 30,
+    address: "729 Salsa Street, Foodville",
+    location: {
+      lat: 37.7500,
+      lng: -122.4150
+    },
+    popular: true,
+    distance: 2.4
   }
 ];
 
@@ -244,5 +489,11 @@ export const categories = [
   "Italian",
   "Asian",
   "Vegetarian",
-  "Desserts"
+  "Desserts",
+  "Indian",
+  "Thai",
+  "Japanese",
+  "Mediterranean",
+  "Mexican",
+  "Breakfast"
 ];

@@ -16,7 +16,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, onClick, cl
     <Card 
       onClick={onClick}
       className={cn(
-        "overflow-hidden cursor-pointer transition-all duration-300 food-card-shadow border-0",
+        "overflow-hidden cursor-pointer transition-all duration-300 food-card-shadow border-0 hover:shadow-lg",
         className
       )}
     >
@@ -59,6 +59,9 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, onClick, cl
         </div>
         <div className="mt-3 text-xs text-muted-foreground flex justify-between">
           <span>Delivery fee: ₹{(restaurant.deliveryFee * 75).toFixed(2)}</span>
+          {restaurant.distance && (
+            <span className="text-primary font-medium">{restaurant.distance.toFixed(1)} km away</span>
+          )}
         </div>
         <div className="mt-3 flex items-center text-xs text-muted-foreground">
           <MapPin className="h-3 w-3 mr-1" />
