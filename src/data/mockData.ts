@@ -1,4 +1,3 @@
-
 export interface FoodItem {
   id: string;
   name: string;
@@ -296,204 +295,256 @@ export const mockFoodItems: FoodItem[] = [
     popular: true,
     rating: 4.7,
     prepTime: "15-25 min"
-  }
-];
-
-export const mockRestaurants: Restaurant[] = [
+  },
+  
+  // Adding new Indian dishes
   {
-    id: "rest1",
-    name: "Burger Palace",
-    image: "https://images.unsplash.com/photo-1555992336-03a23c7b20ee?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YnVyZ2VyJTIwcmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D",
-    description: "Gourmet burgers and sides made with premium ingredients",
-    rating: 4.7,
-    cuisineType: "American",
-    deliveryFee: 2.99,
-    minDeliveryTime: 20,
-    maxDeliveryTime: 35,
-    address: "123 Main St, Foodville",
-    location: {
-      lat: 37.7749,
-      lng: -122.4194
-    },
+    id: "food17",
+    name: "Butter Chicken Curry",
+    description: "Rich and creamy tomato-based curry with tender chicken pieces, flavored with authentic Indian spices",
+    price: 15.99,
+    image: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8YnV0dGVyJTIwY2hpY2tlbnxlbnwwfHwwfHx8MA%3D%3D",
+    category: "Indian",
+    restaurantId: "rest6",
     popular: true,
-    featured: true,
-    distance: 2.3
-  },
-  {
-    id: "rest2",
-    name: "Pizza Paradise",
-    image: "https://images.unsplash.com/photo-1566843972142-a7fcb70de55a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHBpenphJTIwcmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D",
-    description: "Authentic Italian pizzas baked in a wood-fired oven",
-    rating: 4.8,
-    cuisineType: "Italian",
-    deliveryFee: 1.99,
-    minDeliveryTime: 25,
-    maxDeliveryTime: 40,
-    address: "456 Oak Ave, Foodville",
-    location: {
-      lat: 37.7833,
-      lng: -122.4167
-    },
-    popular: true,
-    featured: true,
-    distance: 1.8
-  },
-  {
-    id: "rest3",
-    name: "Wok & Roll",
-    image: "https://images.unsplash.com/photo-1526318896980-cf78c088247c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGFzaWFuJTIwcmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D",
-    description: "Fast and fresh Asian cuisine with bold flavors",
-    rating: 4.5,
-    cuisineType: "Asian",
-    deliveryFee: 3.49,
-    minDeliveryTime: 15,
-    maxDeliveryTime: 30,
-    address: "789 Elm St, Foodville",
-    location: {
-      lat: 37.7900,
-      lng: -122.4000
-    },
-    distance: 3.2
-  },
-  {
-    id: "rest4",
-    name: "Green Leaf",
-    image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dmVnZXRhcmlhbiUyMHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D",
-    description: "Vegetarian and vegan dishes that are both healthy and delicious",
-    rating: 4.3,
-    cuisineType: "Vegetarian",
-    deliveryFee: 2.49,
-    minDeliveryTime: 20,
-    maxDeliveryTime: 35,
-    address: "101 Veggie Dr, Foodville",
-    location: {
-      lat: 37.7700,
-      lng: -122.4100
-    },
-    featured: true,
-    distance: 1.5
-  },
-  {
-    id: "rest5",
-    name: "Sweet Treats",
-    image: "https://images.unsplash.com/photo-1579306194872-64d3b7bac4c2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZGVzc2VydCUyMHNob3B8ZW58MHx8MHx8fDA%3D",
-    description: "Indulgent desserts and pastries for every sweet tooth",
     rating: 4.9,
-    cuisineType: "Desserts",
-    deliveryFee: 3.99,
-    minDeliveryTime: 15,
-    maxDeliveryTime: 30,
-    address: "222 Sugar St, Foodville",
-    location: {
-      lat: 37.7820,
-      lng: -122.4250
-    },
-    popular: true,
-    distance: 2.7
-  },
-  // Adding 5 new restaurants to match our new food items
-  {
-    id: "rest6",
-    name: "Spice Route",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5kaWFuJTIwcmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D",
-    description: "Authentic Indian cuisine with traditional spices and flavors",
-    rating: 4.6,
-    cuisineType: "Indian",
-    deliveryFee: 3.49,
-    minDeliveryTime: 30,
-    maxDeliveryTime: 45,
-    address: "42 Spice Lane, Foodville",
-    location: {
-      lat: 37.7650,
-      lng: -122.4320
-    },
-    popular: true,
-    distance: 3.8
+    prepTime: "25-35 min",
+    customizable: true,
+    options: [
+      {
+        name: "Spice Level",
+        choices: [
+          { id: "mild17", name: "Mild", price: 0 },
+          { id: "medium17", name: "Medium", price: 0 },
+          { id: "spicy17", name: "Spicy", price: 0 }
+        ]
+      },
+      {
+        name: "Add-ons",
+        choices: [
+          { id: "naan17", name: "Garlic Naan", price: 2.99 },
+          { id: "rice17", name: "Jeera Rice", price: 3.49 }
+        ],
+        multiple: true
+      }
+    ]
   },
   {
-    id: "rest7",
-    name: "Thai Garden",
-    image: "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dGhhaSUyMHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D",
-    description: "Fresh Thai dishes with authentic flavors from Southeast Asia",
-    rating: 4.5,
-    cuisineType: "Thai",
-    deliveryFee: 2.99,
-    minDeliveryTime: 25,
-    maxDeliveryTime: 40,
-    address: "567 Basil Street, Foodville",
-    location: {
-      lat: 37.7550,
-      lng: -122.4270
-    },
-    distance: 4.1
-  },
-  {
-    id: "rest8",
-    name: "Sushi Kingdom",
-    image: "https://images.unsplash.com/photo-1617196701537-7329482cc9fe?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c3VzaGklMjByZXN0YXVyYW50fGVufDB8fDB8fHww",
-    description: "Premium sushi and Japanese cuisine prepared by skilled chefs",
-    rating: 4.8,
-    cuisineType: "Japanese",
-    deliveryFee: 4.99,
-    minDeliveryTime: 30,
-    maxDeliveryTime: 50,
-    address: "888 Ocean Drive, Foodville",
-    location: {
-      lat: 37.7780,
-      lng: -122.3950
-    },
-    featured: true,
-    distance: 5.2
-  },
-  {
-    id: "rest9",
-    name: "Mediterranean Delights",
-    image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bWVkaXRlcnJhbmVhbiUyMHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D",
-    description: "Fresh Mediterranean dishes with a focus on healthy ingredients",
-    rating: 4.4,
-    cuisineType: "Mediterranean",
-    deliveryFee: 2.79,
-    minDeliveryTime: 20,
-    maxDeliveryTime: 35,
-    address: "345 Olive Way, Foodville",
-    location: {
-      lat: 37.7600,
-      lng: -122.4050
-    },
-    distance: 3.0
-  },
-  {
-    id: "rest10",
-    name: "Taco Fiesta",
-    image: "https://images.unsplash.com/photo-1653313193408-8454ac168fde?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWV4aWNhbiUyMHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D",
-    description: "Authentic Mexican street food and specialties",
+    id: "food18",
+    name: "Paneer Tikka Masala",
+    description: "Cottage cheese cubes marinated in spices and grilled, then simmered in a creamy tomato sauce",
+    price: 14.49,
+    image: "https://images.unsplash.com/photo-1596797038530-2c107aa4a186?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGFuZWVyfGVufDB8fDB8fHww",
+    category: "Indian",
+    restaurantId: "rest6",
     rating: 4.7,
-    cuisineType: "Mexican",
-    deliveryFee: 2.49,
-    minDeliveryTime: 15,
-    maxDeliveryTime: 30,
-    address: "729 Salsa Street, Foodville",
-    location: {
-      lat: 37.7500,
-      lng: -122.4150
-    },
+    prepTime: "20-30 min",
+    customizable: true,
+    options: [
+      {
+        name: "Spice Level",
+        choices: [
+          { id: "mild18", name: "Mild", price: 0 },
+          { id: "medium18", name: "Medium", price: 0 },
+          { id: "spicy18", name: "Spicy", price: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "food19",
+    name: "Lamb Rogan Josh",
+    description: "Tender lamb cooked with aromatic spices in a rich and flavorful gravy, a classic from Kashmir",
+    price: 16.99,
+    image: "https://images.unsplash.com/photo-1617692855027-33b14f061079?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFtYiUyMGN1cnJ5fGVufDB8fDB8fHww",
+    category: "Indian",
+    restaurantId: "rest6",
+    rating: 4.8,
+    prepTime: "30-40 min"
+  },
+  
+  // Adding new Asian dishes
+  {
+    id: "food20",
+    name: "Kung Pao Chicken",
+    description: "Spicy stir-fried chicken with peanuts, vegetables, and chili peppers in a savory sauce",
+    price: 13.99,
+    image: "https://images.unsplash.com/photo-1525755662778-989d0524087e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2hpbmVzZSUyMGZvb2R8ZW58MHx8MHx8fDA%3D",
+    category: "Asian",
+    restaurantId: "rest3",
     popular: true,
-    distance: 2.4
-  }
-];
-
-export const categories = [
-  "All",
-  "Popular",
-  "American",
-  "Italian",
-  "Asian",
-  "Vegetarian",
-  "Desserts",
-  "Indian",
-  "Thai",
-  "Japanese",
-  "Mediterranean",
-  "Mexican",
-  "Breakfast"
-];
+    rating: 4.6,
+    prepTime: "15-25 min",
+    customizable: true,
+    options: [
+      {
+        name: "Spice Level",
+        choices: [
+          { id: "mild20", name: "Mild", price: 0 },
+          { id: "spicy20", name: "Spicy", price: 0 },
+          { id: "extra20", name: "Extra Spicy", price: 0 }
+        ]
+      },
+      {
+        name: "Side",
+        choices: [
+          { id: "rice20", name: "Steamed Rice", price: 1.99 },
+          { id: "noodle20", name: "Fried Noodles", price: 2.99 }
+        ]
+      }
+    ]
+  },
+  {
+    id: "food21",
+    name: "Beef Pho",
+    description: "Vietnamese noodle soup with thinly sliced beef, rice noodles, and aromatic herbs in a flavorful broth",
+    price: 14.49,
+    image: "https://images.unsplash.com/photo-1576577445504-6af96477db52?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGhvfGVufDB8fDB8fHww",
+    category: "Asian",
+    restaurantId: "rest3",
+    rating: 4.7,
+    prepTime: "20-30 min"
+  },
+  {
+    id: "food22",
+    name: "Korean Bibimbap",
+    description: "Mixed rice bowl with vegetables, beef, a fried egg, and spicy gochujang sauce",
+    price: 13.99,
+    image: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmliaW1iYXB8ZW58MHx8MHx8fDA%3D",
+    category: "Asian",
+    restaurantId: "rest3",
+    popular: true,
+    rating: 4.8,
+    prepTime: "15-25 min"
+  },
+  
+  // Adding new American dishes
+  {
+    id: "food23",
+    name: "BBQ Ribs Platter",
+    description: "Slow-cooked pork ribs glazed with smoky barbecue sauce, served with coleslaw and fries",
+    price: 19.99,
+    image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmJxJTIwcmlic3xlbnwwfHwwfHx8MA%3D%3D",
+    category: "American",
+    restaurantId: "rest1",
+    popular: true,
+    rating: 4.9,
+    prepTime: "25-35 min",
+    customizable: true,
+    options: [
+      {
+        name: "Sauce",
+        choices: [
+          { id: "classic23", name: "Classic BBQ", price: 0 },
+          { id: "honey23", name: "Honey BBQ", price: 0 },
+          { id: "spicy23", name: "Spicy BBQ", price: 0 }
+        ]
+      },
+      {
+        name: "Sides",
+        choices: [
+          { id: "fries23", name: "Extra Fries", price: 2.99 },
+          { id: "onion23", name: "Onion Rings", price: 3.49 },
+          { id: "mac23", name: "Mac & Cheese", price: 3.99 }
+        ],
+        multiple: true
+      }
+    ]
+  },
+  {
+    id: "food24",
+    name: "Double Bacon Cheeseburger",
+    description: "Two beef patties topped with crispy bacon, melted cheese, lettuce, tomato, and special sauce",
+    price: 14.99,
+    image: "https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmFjb24lMjBjaGVlc2VidXJnZXJ8ZW58MHx8MHx8fDA%3D",
+    category: "American",
+    restaurantId: "rest1",
+    popular: true,
+    rating: 4.7,
+    prepTime: "15-20 min"
+  },
+  {
+    id: "food25",
+    name: "Buffalo Chicken Wings",
+    description: "Crispy fried chicken wings tossed in spicy buffalo sauce, served with celery and blue cheese dip",
+    price: 12.99,
+    image: "https://images.unsplash.com/photo-1608039755401-742074f0548d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2hpY2tlbiUyMHdpbmdzfGVufDB8fDB8fHww",
+    category: "American",
+    restaurantId: "rest1",
+    rating: 4.6,
+    prepTime: "15-25 min",
+    customizable: true,
+    options: [
+      {
+        name: "Sauce",
+        choices: [
+          { id: "mild25", name: "Mild", price: 0 },
+          { id: "medium25", name: "Medium", price: 0 },
+          { id: "hot25", name: "Hot", price: 0 }
+        ]
+      },
+      {
+        name: "Quantity",
+        choices: [
+          { id: "small25", name: "Small (8 pcs)", price: 0 },
+          { id: "large25", name: "Large (12 pcs)", price: 4.99 },
+          { id: "jumbo25", name: "Jumbo (16 pcs)", price: 8.99 }
+        ]
+      }
+    ]
+  },
+  
+  // Adding new Mediterranean dishes
+  {
+    id: "food26",
+    name: "Mixed Meze Platter",
+    description: "Assortment of Mediterranean appetizers including hummus, baba ganoush, tzatziki, and fresh pita",
+    price: 16.99,
+    image: "https://images.unsplash.com/photo-1655312214869-97559c8e8b16?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bWV6ZSUyMHBsYXR0ZXJ8ZW58MHx8MHx8fDA%3D",
+    category: "Mediterranean",
+    restaurantId: "rest9",
+    popular: true,
+    rating: 4.8,
+    prepTime: "15-20 min"
+  },
+  
+  // Adding new Mexican dishes
+  {
+    id: "food27",
+    name: "Enchiladas Suizas",
+    description: "Corn tortillas filled with chicken, topped with green tomatillo sauce, melted cheese, and sour cream",
+    price: 13.99,
+    image: "https://images.unsplash.com/photo-1534352956036-cd81e27dd615?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZW5jaGlsYWRhc3xlbnwwfHwwfHx8MA%3D%3D",
+    category: "Mexican",
+    restaurantId: "rest10",
+    rating: 4.6,
+    prepTime: "20-30 min"
+  },
+  
+  // Adding new Japanese dishes
+  {
+    id: "food28",
+    name: "Ramen Bowl",
+    description: "Traditional Japanese noodle soup with rich broth, chashu pork, soft-boiled egg, and vegetables",
+    price: 14.99,
+    image: "https://images.unsplash.com/photo-1557872943-16a5ac26437e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmFtZW58ZW58MHx8MHx8fDA%3D",
+    category: "Japanese",
+    restaurantId: "rest8",
+    popular: true,
+    rating: 4.9,
+    prepTime: "15-25 min",
+    customizable: true,
+    options: [
+      {
+        name: "Broth",
+        choices: [
+          { id: "tonkotsu28", name: "Tonkotsu", price: 0 },
+          { id: "miso28", name: "Miso", price: 0 },
+          { id: "shoyu28", name: "Shoyu", price: 0 }
+        ]
+      },
+      {
+        name: "Add-ons",
+        choices: [
+          { id: "egg28", name: "Extra Egg", price: 1.99 },
+          { id: "chashu28", name: "Extra Chashu", price:
