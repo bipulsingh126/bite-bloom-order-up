@@ -29,6 +29,10 @@ export interface Restaurant {
   minDeliveryTime: number;
   maxDeliveryTime: number;
   address: string;
+  location?: {
+    lat: number;
+    lng: number;
+  };
   popular?: boolean;
   featured?: boolean;
 }
@@ -156,6 +160,10 @@ export const mockRestaurants: Restaurant[] = [
     minDeliveryTime: 20,
     maxDeliveryTime: 35,
     address: "123 Main St, Foodville",
+    location: {
+      lat: 37.7749,
+      lng: -122.4194
+    },
     popular: true,
     featured: true
   },
@@ -170,6 +178,10 @@ export const mockRestaurants: Restaurant[] = [
     minDeliveryTime: 25,
     maxDeliveryTime: 40,
     address: "456 Oak Ave, Foodville",
+    location: {
+      lat: 37.7833,
+      lng: -122.4167
+    },
     popular: true,
     featured: true
   },
@@ -183,7 +195,11 @@ export const mockRestaurants: Restaurant[] = [
     deliveryFee: 3.49,
     minDeliveryTime: 15,
     maxDeliveryTime: 30,
-    address: "789 Elm St, Foodville"
+    address: "789 Elm St, Foodville",
+    location: {
+      lat: 37.7900,
+      lng: -122.4000
+    }
   },
   {
     id: "rest4",
@@ -196,6 +212,10 @@ export const mockRestaurants: Restaurant[] = [
     minDeliveryTime: 20,
     maxDeliveryTime: 35,
     address: "101 Veggie Dr, Foodville",
+    location: {
+      lat: 37.7700,
+      lng: -122.4100
+    },
     featured: true
   },
   {
@@ -209,6 +229,10 @@ export const mockRestaurants: Restaurant[] = [
     minDeliveryTime: 15,
     maxDeliveryTime: 30,
     address: "222 Sugar St, Foodville",
+    location: {
+      lat: 37.7820,
+      lng: -122.4250
+    },
     popular: true
   }
 ];

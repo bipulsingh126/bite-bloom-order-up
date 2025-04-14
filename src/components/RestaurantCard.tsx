@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Star, Clock } from 'lucide-react';
+import { Star, Clock, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Restaurant } from '@/data/mockData';
 
@@ -48,7 +48,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, onClick, cl
         <p className="text-sm text-muted-foreground line-clamp-2 h-10 mb-3">
           {restaurant.description}
         </p>
-        <div className="flex justify-between items-center text-sm">
+        <div className="flex justify-between items-center text-sm mb-2">
           <span className="inline-block bg-muted px-2 py-1 rounded-full text-xs">
             {restaurant.cuisineType}
           </span>
@@ -57,8 +57,12 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant, onClick, cl
             <span className="text-xs">{restaurant.minDeliveryTime}-{restaurant.maxDeliveryTime} min</span>
           </div>
         </div>
-        <div className="mt-3 text-xs text-muted-foreground">
-          <span>Delivery fee: ${restaurant.deliveryFee.toFixed(2)}</span>
+        <div className="mt-3 text-xs text-muted-foreground flex justify-between">
+          <span>Delivery fee: ₹{(restaurant.deliveryFee * 75).toFixed(2)}</span>
+        </div>
+        <div className="mt-3 flex items-center text-xs text-muted-foreground">
+          <MapPin className="h-3 w-3 mr-1" />
+          <span className="truncate">{restaurant.address}</span>
         </div>
       </CardContent>
     </Card>

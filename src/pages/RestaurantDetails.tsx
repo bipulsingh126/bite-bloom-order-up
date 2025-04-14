@@ -5,9 +5,10 @@ import Navbar from '@/components/Navbar';
 import FoodItemDialog from '@/components/FoodItemDialog';
 import InfiniteFoodGrid from '@/components/InfiniteFoodGrid';
 import CartDrawer from '@/components/CartDrawer';
+import LocationMap from '@/components/LocationMap';
 import { Button } from '@/components/ui/button';
 import { mockRestaurants, mockFoodItems, FoodItem, Restaurant } from '@/data/mockData';
-import { Star, Clock, Navigation, Phone, IndianRupee } from 'lucide-react';
+import { Star, Clock, Navigation, Phone, IndianRupee, MapPin } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // USD to INR conversion rate
@@ -96,7 +97,7 @@ const RestaurantDetails = () => {
                 </div>
                 
                 <div className="flex items-center">
-                  <Navigation className="h-5 w-5 text-muted-foreground mr-1" />
+                  <MapPin className="h-5 w-5 text-muted-foreground mr-1" />
                   <span className="text-muted-foreground">{restaurant.address}</span>
                 </div>
               </div>
@@ -105,6 +106,10 @@ const RestaurantDetails = () => {
                 <Button variant="outline" size="sm" className="flex items-center">
                   <Phone className="h-4 w-4 mr-2" />
                   <span>Call</span>
+                </Button>
+                <Button variant="outline" size="sm" className="flex items-center">
+                  <Navigation className="h-4 w-4 mr-2" />
+                  <span>Directions</span>
                 </Button>
                 <Button size="sm" className="flex items-center">
                   <span>View Menu</span>
@@ -115,37 +120,47 @@ const RestaurantDetails = () => {
         </div>
       </div>
       
-      {/* Menu Section */}
       <div className="container mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold mb-6">Menu</h2>
-        
-        <Tabs defaultValue="All" value={activeCategory} onValueChange={setActiveCategory}>
-          <div className="overflow-x-auto">
-            <TabsList className="mb-6 flex w-full border-b overflow-x-auto">
-              {foodCategories.map(category => (
-                <TabsTrigger 
-                  key={category} 
-                  value={category}
-                  className="px-4 py-2"
-                >
-                  {category}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          {/* Menu Section - Left 2/3 */}
+          <div className="lg:col-span-2">
+            <h2 className="text-2xl font-bold mb-6">Menu</h2>
+            
+            <Tabs defaultValue="All" value={activeCategory} onValueChange={setActiveCategory}>
+              <div className="overflow-x-auto">
+                <TabsList className="mb-6 flex w-full border-b overflow-x-auto">
+                  {foodCategories.map(category => (
+                    <TabsTrigger 
+                      key={category} 
+                      value={category}
+                      className="px-4 py-2"
+                    >
+                      {category}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </div>
+              
+              {filteredFoods.length > 0 ? (
+                <InfiniteFoodGrid 
+                  foodItems={filteredFoods} 
+                  onFoodClick={handleFoodClick} 
+                  pageSize={8}
+                />
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-lg text-muted-foreground">No items found in this category</p>
+                </div>
+              )}
+            </Tabs>
           </div>
           
-          {filteredFoods.length > 0 ? (
-            <InfiniteFoodGrid 
-              foodItems={filteredFoods} 
-              onFoodClick={handleFoodClick} 
-              pageSize={8}
-            />
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-lg text-muted-foreground">No items found in this category</p>
-            </div>
-          )}
-        </Tabs>
+          {/* Location Map - Right 1/3 */}
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold mb-4">Location</h2>
+            <LocationMap restaurant={restaurant} className="sticky top-24" />
+          </div>
+        </div>
       </div>
       
       {/* Food Detail Dialog */}

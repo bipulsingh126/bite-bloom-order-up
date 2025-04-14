@@ -4,7 +4,7 @@ import Navbar from '@/components/Navbar';
 import CartDrawer from '@/components/CartDrawer';
 import InfiniteRestaurantGrid from '@/components/InfiniteRestaurantGrid';
 import { mockRestaurants } from '@/data/mockData';
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { Search, SlidersHorizontal, MapPin } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -33,16 +33,22 @@ const Restaurants = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [cuisineFilter, setCuisineFilter] = useState('');
   const [sortBy, setSortBy] = useState('rating');
+  const [locationFilter, setLocationFilter] = useState('');
   
   // Extract unique cuisine types for filter
   const cuisineTypes = ['All', ...Array.from(new Set(mockRestaurants.map(r => r.cuisineType)))];
+
+  // Extract location areas - in a real app these would be neighborhoods or districts
+  const locationAreas = ['All', 'Downtown', 'Uptown', 'Midtown', 'Suburb'];
   
   // Filter and sort restaurants
   const filteredRestaurants = mockRestaurants
     .filter(restaurant => 
       (searchTerm ? restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                   restaurant.description.toLowerCase().includes(searchTerm.toLowerCase()) : true) &&
-      (cuisineFilter && cuisineFilter !== 'All' ? restaurant.cuisineType === cuisineFilter : true)
+                   restaurant.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                   restaurant.address.toLowerCase().includes(searchTerm.toLowerCase()) : true) &&
+      (cuisineFilter && cuisineFilter !== 'All' ? restaurant.cuisineType === cuisineFilter : true) &&
+      (locationFilter && locationFilter !== 'All' ? restaurant.address.toLowerCase().includes(locationFilter.toLowerCase()) : true)
     )
     .sort((a, b) => {
       if (sortBy === 'rating') return b.rating - a.rating;
@@ -63,16 +69,16 @@ const Restaurants = () => {
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="relative flex-grow">
             <Input
-              placeholder="Search restaurants..."
+              placeholder="Search restaurants or locations..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
             />
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <Select value={cuisineFilter} onValueChange={setCuisineFilter}>
-              <SelectTrigger className="w-[160px]">
+              <SelectTrigger className="w-full sm:w-[160px]">
                 <SelectValue placeholder="Cuisine type" />
               </SelectTrigger>
               <SelectContent>
@@ -83,8 +89,20 @@ const Restaurants = () => {
                 ))}
               </SelectContent>
             </Select>
+            <Select value={locationFilter} onValueChange={setLocationFilter}>
+              <SelectTrigger className="w-full sm:w-[160px]">
+                <SelectValue placeholder="Location" />
+              </SelectTrigger>
+              <SelectContent>
+                {locationAreas.map(area => (
+                  <SelectItem key={area} value={area}>
+                    {area}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[160px]">
+              <SelectTrigger className="w-full sm:w-[160px]">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
@@ -139,10 +157,41 @@ const Restaurants = () => {
                     </div>
                   </div>
                 </div>
+                <div>
+                  <h4 className="font-medium mb-2">Distance</h4>
+                  <div className="flex flex-wrap gap-2">
+                    <div className="flex items-center gap-1.5">
+                      <input type="checkbox" id="dist1" className="rounded" />
+                      <label htmlFor="dist1">Under 1 km</label>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <input type="checkbox" id="dist2" className="rounded" />
+                      <label htmlFor="dist2">1-3 km</label>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <input type="checkbox" id="dist3" className="rounded" />
+                      <label htmlFor="dist3">3+ km</label>
+                    </div>
+                  </div>
+                </div>
               </div>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+        
+        {/* Location Banner */}
+        <div className="bg-card mb-8 p-4 rounded-lg border flex items-center gap-3">
+          <div className="bg-primary/10 p-2 rounded-full">
+            <MapPin className="h-5 w-5 text-primary" />
+          </div>
+          <div>
+            <h3 className="font-medium">Delivering to: Foodville, CA</h3>
+            <p className="text-sm text-muted-foreground">Change location to see restaurants in other areas</p>
+          </div>
+          <button className="ml-auto text-sm font-medium text-primary hover:underline">
+            Change
+          </button>
+        </div>
         
         {/* Restaurant Cards with Infinite Scroll */}
         {filteredRestaurants.length > 0 ? (
